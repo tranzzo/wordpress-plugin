@@ -349,5 +349,4 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         }
     }
 }
-
 ?>
