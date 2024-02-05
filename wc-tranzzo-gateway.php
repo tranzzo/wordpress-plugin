@@ -8,17 +8,19 @@ Author: TRANZZO
 Author URI: https://tranzzo.com
 */
 
-add_action('init', 'tranzzo_endpoint');
-add_action('pre_get_posts', 'tranzzo_listen_redirect');
+add_action('init', 'tranzzoEndpoint');
+add_action('pre_get_posts', 'tranzzoListenRedirect');
 
-function tranzzo_endpoint()
+function tranzzoEndpoint()
 {
     add_rewrite_endpoint('tranzzo-redirect', EP_ROOT);
 }
 
-function tranzzo_listen_redirect($query)
+function tranzzoListenRedirect($query)
 {
-    if (($query->get('pagename') == 'tranzzo-redirect') || (strpos($_SERVER['REQUEST_URI'], 'tranzzo-redirect') !== false)) {
+    if (($query->get('pagename') == 'tranzzo-redirect') ||
+        (strpos($_SERVER['REQUEST_URI'], 'tranzzo-redirect') !== false)) {
+
         if (!class_exists('My_Custom_Gateway')) {
             include(plugin_dir_path(__FILE__) . 'class-gateway.php');
         }
@@ -28,8 +30,8 @@ function tranzzo_listen_redirect($query)
     }
 }
 
-add_action('plugins_loaded', 'woocommerce_myplugin', 0);
-function woocommerce_myplugin()
+add_action('plugins_loaded', 'woocommerceMyPlugin', 0);
+function woocommerceMyPlugin()
 {
     if (!class_exists('WC_Payment_Gateway'))
         return;
@@ -38,26 +40,30 @@ function woocommerce_myplugin()
 }
 
 
-add_filter('woocommerce_payment_gateways', 'add_my_custom_gateway');
+add_filter('woocommerce_payment_gateways', 'addMyCustomGateway');
 
-function add_my_custom_gateway($gateways)
+function addMyCustomGateway($gateways)
 {
     $gateways[] = 'My_Custom_Gateway';
     return $gateways;
 }
 
 
-function declare_cart_checkout_blocks_compatibility()
+function declareCartCheckoutBlocksCompatibility()
 {
     if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
-        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+            'cart_checkout_blocks',
+            __FILE__,
+            true
+        );
     }
 }
 
-add_action('before_woocommerce_init', 'declare_cart_checkout_blocks_compatibility');
+add_action('before_woocommerce_init', 'declareCartCheckoutBlocksCompatibility');
 
-add_action('woocommerce_blocks_loaded', 'oawoo_register_order_approval_payment_method_type');
-function oawoo_register_order_approval_payment_method_type()
+add_action('woocommerce_blocks_loaded', 'wooRegisterOrderApprovalPaymentMethodType');
+function wooRegisterOrderApprovalPaymentMethodType()
 {
     if (!class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
         return;
@@ -68,10 +74,8 @@ function oawoo_register_order_approval_payment_method_type()
     add_action(
         'woocommerce_blocks_payment_method_type_registration',
         function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
-            // Register an instance of My_Custom_Gateway_Blocks
             $payment_method_registry->register(new My_Custom_Gateway_Blocks);
         }
     );
 }
-
 ?>
