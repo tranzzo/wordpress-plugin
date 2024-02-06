@@ -752,7 +752,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             file_put_contents(
-                __DIR__ . "/class-gateway.php",
+                __DIR__ . "/{$filename}.log",
                 "\n\n" .
                 date("Y-m-d H:i:s") .
                 " - $flag \n" .

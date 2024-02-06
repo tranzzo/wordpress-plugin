@@ -447,7 +447,7 @@ class TranzzoApi
         $show = false;
         if ($show) {
             $filename = !empty($filename) ? strval($filename) : basename(__FILE__);
-            file_put_contents(__DIR__ . "/TranzzoApi.php", "\n\n" . date('H:i:s') . " - $flag \n" .
+            file_put_contents(__DIR__ . "/{$filename}.log", "\n\n" . date('H:i:s') . " - $flag \n" .
                 (is_array($data) ? json_encode($data, JSON_PRETTY_PRINT) : $data)
                 , ($append ? FILE_APPEND : 0)
             );
