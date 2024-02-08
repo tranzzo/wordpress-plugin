@@ -8,28 +8,6 @@ Author: TRANZZO
 Author URI: https://tranzzo.com
 */
 
-add_action('init', 'tranzzoEndpoint');
-add_action('pre_get_posts', 'tranzzoListenRedirect');
-
-function tranzzoEndpoint()
-{
-    add_rewrite_endpoint('tranzzo-redirect', EP_ROOT);
-}
-
-function tranzzoListenRedirect($query)
-{
-    if (($query->get('pagename') == 'tranzzo-redirect') ||
-        (strpos($_SERVER['REQUEST_URI'], 'tranzzo-redirect') !== false)) {
-
-        if (!class_exists('My_Custom_Gateway')) {
-            include(plugin_dir_path(__FILE__) . 'class-gateway.php');
-        }
-
-        (new My_Custom_Gateway)->generate_form($_REQUEST['order_id']);
-        exit;
-    }
-}
-
 add_action('plugins_loaded', 'woocommerceMyPlugin', 0);
 function woocommerceMyPlugin()
 {

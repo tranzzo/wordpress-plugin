@@ -234,24 +234,24 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function process_payment($order_id)
     {
+        $order = wc_get_order( $order_id );
+
         return [
             "result" => "success",
-            "redirect" => add_query_arg(
-                "order_id",
-                $order_id,
-                home_url("tranzzo-redirect")
-            ),
+            "redirect" => $this->generate_form($order)
         ];
     }
 
     /**
-     * @param $order_id
+     * @param $order
+     * @return string
      */
-    public function generate_form($order_id)
+    public function generate_form($order)
     {
         self::writeLog("generate_form", "1");
         global $woocommerce;
-        $order = new WC_Order($order_id);
+
+        $order_id = $order->get_id();
         $data_order = $order->get_data();
 
         if (!empty($data_order)) {
@@ -311,16 +311,26 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
             self::writeLog($response, '$response');
 
-            if (!empty($response["redirect_url"])) {
+            if(isset($response['args']['code']) && $response['args']['code'] == 'P-409'){
+                $redirectUrl = get_post_meta($order_id, 'redirect_url', true);
                 $woocommerce->cart->empty_cart();
-                wp_redirect($response["redirect_url"]);
+
+                return $redirectUrl;
                 exit();
             }
 
-            wp_redirect($order->get_cancel_order_url());
+            if (isset($response["redirect_url"]) && !empty($response["redirect_url"])) {
+                $woocommerce->cart->empty_cart();
+                update_post_meta($order_id, 'redirect_url', $response["redirect_url"]);
+
+                return $response["redirect_url"];
+                exit();
+            }
+
+            return $order->get_cancel_order_url();
         }
 
-        wp_redirect(home_url("/"));
+        return home_url("/");
     }
 
     /**
