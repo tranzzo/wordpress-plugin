@@ -253,17 +253,42 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function process_payment($order_id)
     {
-        $order = wc_get_order( $order_id );
+        $order = wc_get_order($order_id);
+
+        $redirect = $this->generate_form($order);
+
+        if(is_array($redirect)){
+            wc_add_notice($redirect['message'] , 'error');
+
+            if(is_array($redirect['args'])){
+                foreach ($redirect['args'] as $key => $arg){
+                    if(is_array($arg)){
+                        wc_add_notice(
+                           $key.': '.http_build_query($arg,'',', '),
+                           'error'
+                        );
+                    }else{
+                        wc_add_notice($key.': '.$redirect['message'] , 'error');
+                    }
+                }
+            }
+
+            return array(
+                'result'   => 'failure',
+                'messages' => $redirect['message']
+            );
+        }
 
         return [
             "result" => "success",
-            "redirect" => $this->generate_form($order)
+            "redirect" => $redirect
         ];
     }
 
+
     /**
      * @param $order
-     * @return string
+     * @return array|mixed
      */
     public function generate_form($order)
     {
@@ -346,7 +371,14 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 exit();
             }
 
-            return $order->get_cancel_order_url();
+            if(isset($response['message'])) {
+
+                return array(
+                    'message' => $response['message'],
+                    'args' => $response['args']
+                );
+                exit();
+            }
         }
 
         return home_url("/");

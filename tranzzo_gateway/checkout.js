@@ -1,5 +1,5 @@
 const settings = window.wc.wcSettings.getSetting( 'my_custom_gateway_data', {} );
-const label = window.wp.htmlEntities.decodeEntities( settings.title ) || window.wp.i18n.__( 'Tranzzo Gateway', 'tranzzo' );
+const label = window.wp.htmlEntities.decodeEntities( settings.title ) || window.wp.i18n.__( 'Tranzzo Gateway', 'tranzzo_gateway' );
 const Content = () => {
     return window.wp.htmlEntities.decodeEntities( settings.description || '' );
 };
