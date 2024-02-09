@@ -1,47 +1,71 @@
 # Translation of WordPress - Administration in English
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-04-04 17:17+0300\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-09 01:52+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Language: en_US\n"
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.4.2\n"
 
 msgid "TRANZZO"
 msgstr "TRANZZO"
 
-msgid "Платежный шлюз отключен."
+msgid "Увімкнути"
+msgstr "Enable"
+
+msgid "Tranzzo Gateway"
+msgstr "Tranzzo Gateway"
+
+msgid "Тестовий режим"
+msgstr "Test mode"
+
+msgid "Увімкнути тестовий режим"
+msgstr "Enable test mode"
+
+msgid "Блокування коштів"
+msgstr "Blocking of funds"
+
+msgid "Статус успішного платежу"
+msgstr "Successful payment status"
+
+msgid "Приймайте платежі через Tranzzo Gateway"
+msgstr "Accept payments through Tranzzo Gateway"
+
+msgid "Платіжний шлюз вимкнено."
 msgstr "Payment gateway is disabled."
 
-msgid "TRANZZO не поддерживает валюту Вашего магазина!"
+msgid "TRANZZO не підтримує валюту Вашого магазину!"
 msgstr "TRANZZO does not support the currency of your store!"
 
-msgid "Вкл. / Выкл."
-msgstr "On / Off"
+msgid "Увімкнено / Вимкнено"
+msgstr "Enable / Disable"
 
-msgid "Включить"
-msgstr "On"
+msgid "Увімкнути TRANZZO Gateway"
+msgstr "On TRANZZO Gateway"
 
 msgid "Заголовок"
 msgstr "Header"
 
-msgid "Заголовок, который отображается на странице оформления заказа"
+msgid "Заголовок, що відображається на сторінці оформлення замовлення"
 msgstr "The title that appears on the ordering page"
 
-msgid "Описание"
+msgid "Опис"
 msgstr "Description"
 
-msgid "Описание, которое отображается в процессе выбора формы оплаты"
+msgid "Опис, який відображається в процесі вибору форми оплати"
 msgstr "The description that is displayed during the payment method selection process"
 
-msgid "Оплатить через платежную систему TRANZZO"
+msgid "Сплатити через платіжну систему TRANZZO"
 msgstr "Pay through the payment system TRANZZO"
+
+msgid "Заказ успішно оплачений через TRANZZO"
+msgstr "The order has been successfully paid through TRANZZO"
 
 msgid "POS_ID TRANZZO"
 msgstr "POS_ID TRANZZO"
@@ -55,11 +79,35 @@ msgstr "API_SECRET TRANZZO"
 msgid "ENDPOINTS_KEY TRANZZO"
 msgstr "ENDPOINTS_KEY TRANZZO"
 
-msgid "Заказ не оплачен"
-msgstr "Order not paid"
+msgid "Заказ в очікуванні оплати"
+msgstr "Order pending payment"
 
-msgid "ID платежа(payment id): "
+msgid "Помилка відшкодування: платіж за це замовлення не визначено."
+msgstr "Refund Error: Payment for this order has not been determined."
+
+msgid "Помилка відшкодування: потрібно вказати суму відшкодування."
+msgstr "Refund Error: You need to specify a refund amount."
+
+msgid "Помилка відшкодування: потрібно вказати загальну суму відшкодування -"
+msgstr "Refund Error: You need to specify the total refund amount -"
+
+msgid "Повернено %1$s - Причина: %3$s"
+msgstr "Refunded %1$s - Reason: %3$s"
+
+msgid "ID платежу (payment id): "
 msgstr "Payment id: "
 
-msgid "ID транзакции(transaction id): "
+msgid "ID транзакції (transaction id): "
 msgstr "Transaction id: "
+
+msgid "Замовлення успішно повернуто через TRANZZO"
+msgstr "The order has been successfully returned via TRANZZO"
+
+msgid "Зарезервована сума платежу зарахована через TRANZZO"
+msgstr "The reserved payment amount is credited through TRANZZO"
+
+msgid "Сума платежу успішно повернута через TRANZZO"
+msgstr "The payment amount has been successfully returned via TRANZZO"
+
+msgid "Сума платежу зарезервована через TRANZZO, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
+msgstr "The payment amount is reserved through TRANZZO, it is necessary to change the status of the order to 'Processing' in order to credit the funds "

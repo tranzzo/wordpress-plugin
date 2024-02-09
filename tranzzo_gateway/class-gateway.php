@@ -35,6 +35,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public $payment_method;
     /**
+     * @var string
+     */
+    public $successStatus;
+    /**
      * @var int
      */
     public $typePayment;
@@ -69,8 +73,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function __construct()
     {
         $this->id = "my_custom_gateway";
-        $this->methodTitle = __("Tranzzo Gateway", "tranzzo");
-        $this->methodDescription = __("Приймайте платежі через Tranzzo Gateway", "tranzzo");
+        $this->methodTitle = __("Tranzzo Gateway", "tranzzo_gateway");
+        $this->methodDescription = __("Приймайте платежі через Tranzzo Gateway", "tranzzo_gateway");
 
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
@@ -80,6 +84,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $this->payment_method = $this->get_option("payment_method");
         $this->typePayment = $this->get_option("typePayment") == "yes" ? 1 : 0;
         $this->testMode = $this->get_option("test_mode") == "yes" ? 1 : 0;
+
+        $successStatus = str_replace('wc-','', $this->get_option("custom_success_status"));
+        $this->successStatus = $successStatus != "processing" ? $successStatus : null;
+
         $this->POS_ID = trim($this->get_option("POS_ID"));
         $this->API_KEY = trim($this->get_option("API_KEY"));
         $this->API_SECRET = trim($this->get_option("API_SECRET", "PAY ONLINE"));
@@ -128,7 +136,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function admin_options()
     {
         if ($this->supportCurrencyTRANZZO()) { ?>
-            <h3><?php _e("TRANZZO", "tranzzo"); ?></h3>
+            <h3><?php _e("TRANZZO", "tranzzo_gateway"); ?></h3>
             <table class="form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
@@ -137,10 +145,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 <p>
                     <strong><?php _e(
                             "Платіжний шлюз вимкнено.",
-                            "tranzzo"
+                            "tranzzo_gateway"
                         ); ?></strong>: <?php _e(
                         "TRANZZO не підтримує валюту Вашого магазину!",
-                        "tranzzo"
+                        "tranzzo_gateway"
                     ); ?>
                 </p>
             </div>
@@ -154,64 +162,75 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     {
         $this->form_fields = [
             "enabled" => [
-                "title" => __("Enable/Disable", "tranzzo"),
+                "title" => __("Увімкнено / Вимкнено", "tranzzo_gateway"),
                 "type" => "checkbox",
-                "label" => __("Увімкнути TRANZZO Gateway", "tranzzo"),
+                "label" => __("Увімкнути TRANZZO Gateway", "tranzzo_gateway"),
                 "default" => "yes",
             ],
             "test_mode" => [
-                "title" => __("Тестовий режим", "tranzzo"),
+                "title" => __("Тестовий режим", "tranzzo_gateway"),
                 "type" => "checkbox",
-                "label" => __("Увімкнути тестовий режим", "tranzzo"),
+                "label" => __("Увімкнути тестовий режим", "tranzzo_gateway"),
                 "default" => "yes",
             ],
             "title" => [
-                "title" => __("Заголовок", "tranzzo"),
+                "title" => __("Заголовок", "tranzzo_gateway"),
                 "type" => "text",
                 "description" => __(
                     "Заголовок, що відображається на сторінці оформлення замовлення",
-                    "tranzzo"
+                    "tranzzo_gateway"
                 ),
                 "default" => "TRANZZO",
                 "desc_tip" => true,
             ],
             "description" => [
-                "title" => __("Опис", "tranzzo"),
+                "title" => __("Опис", "tranzzo_gateway"),
                 "type" => "textarea",
                 "description" => __(
                     "Опис, який відображається в процесі вибору форми оплати",
-                    "tranzzo"
+                    "tranzzo_gateway"
                 ),
                 "default" => __(
                     "Сплатити через платіжну систему TRANZZO",
-                    "tranzzo"
+                    "tranzzo_gateway"
                 ),
             ],
             "typePayment" => [
-                "title" => __("Блокування коштів", "tranzzo"),
+                "title" => __("Блокування коштів", "tranzzo_gateway"),
                 "type" => "checkbox",
-                "label" => __("Увімкнути", "tranzzo"),
+                "label" => __("Увімкнути", "tranzzo_gateway"),
                 "default" => "no",
+            ],
+            "custom_success_status" => [
+                "title" => __("Статус успішного платежу", "tranzzo_gateway"),
+                "type" => "select",
+                "description" => __(
+                    "Upon successful payment, set the current status of the WooCommerce order",
+                    "tranzzo_gateway"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-processing",
+                "desc_tip" => true,
             ],
             "POS_ID" => [
                 "title" => "POS_ID",
                 "type" => "text",
-                "description" => __("POS_ID TRANZZO", "tranzzo"),
+                "description" => __("POS_ID TRANZZO", "tranzzo_gateway"),
             ],
             "API_KEY" => [
                 "title" => "API_KEY",
                 "type" => "password",
-                "description" => __("API_KEY TRANZZO", "tranzzo"),
+                "description" => __("API_KEY TRANZZO", "tranzzo_gateway"),
             ],
             "API_SECRET" => [
                 "title" => "API_SECRET",
                 "type" => "password",
-                "description" => __("API_SECRET TRANZZO", "tranzzo"),
+                "description" => __("API_SECRET TRANZZO", "tranzzo_gateway"),
             ],
             "ENDPOINTS_KEY" => [
                 "title" => "ENDPOINTS_KEY",
                 "type" => "password",
-                "description" => __("ENDPOINTS_KEY TRANZZO", "tranzzo"),
+                "description" => __("ENDPOINTS_KEY TRANZZO", "tranzzo_gateway"),
             ],
         ];
     }
@@ -409,15 +428,20 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     $data_response[TranzzoApi::P_RES_TRSACT_ID]
                 );
                 $order->payment_complete();
+
+                //if set custom status
+                if($this->successStatus){
+                    $order->update_status($this->successStatus);
+                }
                 $order->add_order_note(
-                    __("Заказ успішно оплачений через TRANZZO", "tranzzo")
+                    __("Заказ успішно оплачений через TRANZZO", "tranzzo_gateway")
                 );
                 $order->add_order_note(
-                    "ID платежу (payment id): " .
+                    __("ID платежу (payment id): ") .
                     $data_response[TranzzoApi::P_RES_PAYMENT_ID]
                 );
                 $order->add_order_note(
-                    "ID транзакції (transaction id): " .
+                    __("ID транзакції (transaction id): ") .
                     $data_response[TranzzoApi::P_RES_TRSACT_ID]
                 );
                 $order->save();
@@ -442,21 +466,18 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->set_transaction_id(
                     $data_response[TranzzoApi::P_RES_TRSACT_ID]
                 );
-                $order->update_status("on-hold", __("TRANZZO", "tranzzo"));
+                $order->update_status("on-hold", __("TRANZZO", "tranzzo_gateway"));
 
                 $order->add_order_note(
-                    "ID платежу (payment id): " .
+                    __("ID платежу (payment id): ") .
                     $data_response[TranzzoApi::P_RES_PAYMENT_ID]
                 );
                 $order->add_order_note(
-                    "ID транзакції (transaction id): " .
+                    __("ID транзакції (transaction id): ") .
                     $data_response[TranzzoApi::P_RES_TRSACT_ID]
                 );
                 $order->add_order_note(
-                    __(
-                        'Сума платежу зарезервована через TRANZZO, необхідно змінити статус замовлення на "Обробка" для зарахування коштів',
-                        "tranzzo"
-                    )
+                    __('Сума платежу зарезервована через TRANZZO, необхідно змінити статус замовлення на "Обробка" для зарахування коштів', "tranzzo_gateway")
                 );
                 $order->save();
                 update_post_meta(
@@ -478,12 +499,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 TranzzoApi::P_TRZ_ST_SUCCESS
             ) {
                 self::writeLog("!!!!!!!!! void", "", "check_response");
-                $order->update_status("cancelled", __("TRANZZO", "tranzzo"));
+                $order->update_status("cancelled", __("TRANZZO", "tranzzo_gateway"));
 
                 $order->add_order_note(
                     __(
                         "Сума платежу успішно повернута через TRANZZO",
-                        "tranzzo"
+                        "tranzzo_gateway"
                     )
                 );
                 $order->save();
@@ -504,7 +525,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->add_order_note(
                     __(
                         "Зарезервована сума платежу зарахована через TRANZZO",
-                        "tranzzo"
+                        "tranzzo_gateway"
                     )
                 );
                 $order->save();
@@ -522,10 +543,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 TranzzoApi::P_TRZ_ST_SUCCESS
             ) {
                 $order->add_order_note(
-                    __("Заказ успішно повернуто через TRANZZO", "tranzzo")
+                    __("Замовлення успішно повернуто через TRANZZO", "tranzzo_gateway")
                 );
                 $order->add_order_note(
-                    "ID платежу (payment id): " .
+                    __("ID платежу (payment id): ") .
                     $data_response[TranzzoApi::P_RES_PAYMENT_ID]
                 );
 
@@ -545,7 +566,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 );
 
                 $order->add_order_note(
-                    __("Заказ в очікуванні оплати", "tranzzo")
+                    __("Заказ в очікуванні оплати", "tranzzo_gateway")
                 );
                 $order->save();
             }
@@ -577,8 +598,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             return new WP_Error(
                 "tranzzo_refund_error",
                 __(
-                    "Refund Error: Payment for this order has not been determined.",
-                    "tranzzo"
+                    "Помилка відшкодування: платіж за це замовлення не визначено.",
+                    "tranzzo_gateway"
                 )
             );
         }
@@ -586,8 +607,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             return new WP_Error(
                 "tranzzo_refund_error",
                 __(
-                    "Refund Error: You need to specify a refund amount.",
-                    "tranzzo"
+                    "Помилка відшкодування: потрібно вказати суму відшкодування.",
+                    "tranzzo_gateway"
                 )
             );
         }
@@ -617,12 +638,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             return new WP_Error(
                 "tranzzo_refund_error",
                 __(
-                    "Refund Error: You need to specify the total refund amount - " .
+                    "Помилка відшкодування: потрібно вказати загальну суму відшкодування -" .
                     $order_total .
                     " " .
                     $order_currency .
                     ".",
-                    "tranzzo"
+                    "tranzzo_gateway"
                 )
             );
         }
@@ -662,12 +683,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         if ($response["status"] != "success") {
             return new WP_Error(
                 "tranzzo_refund_error",
-                __($response["message"], "tranzzo")
+                __($response["message"], "tranzzo_gateway")
             );
         } else {
             self::writeLog("success", "");
             $refund_message = sprintf(
-                __('Refunded %1$s - Reason: %3$s', "tranzzo"),
+                __('Повернено %1$s - Причина: %3$s', "tranzzo_gateway"),
                 $amount,
                 $reason
             );
@@ -742,7 +763,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                 return new WP_Error(
                     "tranzzo_refund_error",
-                    __($response["message"], "tranzzo")
+                    __($response["message"], "tranzzo_gateway")
                 );
             } else {
                 self::writeLog("success", "");

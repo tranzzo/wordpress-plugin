@@ -11,6 +11,8 @@ Author URI: https://tranzzo.com
 add_action('plugins_loaded', 'woocommerceMyPlugin', 0);
 function woocommerceMyPlugin()
 {
+    load_plugin_textdomain( 'tranzzo_gateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
     if (!class_exists('WC_Payment_Gateway'))
         return;
 
