@@ -196,7 +196,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 ),
             ],
             "typePayment" => [
-                "title" => __("Блокування коштів", "tranzzo_gateway"),
+                "title" => __("Холдування коштів", "tranzzo_gateway"),
                 "type" => "checkbox",
                 "label" => __("Увімкнути", "tranzzo_gateway"),
                 "default" => "no",
@@ -630,7 +630,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             return new WP_Error(
                 "tranzzo_refund_error",
                 __(
-                    "Помилка відшкодування: платіж за це замовлення не визначено.",
+                    "Помилка при поверненні коштів: платіж за цим замовленням не знайдено.",
                     "tranzzo_gateway"
                 )
             );
@@ -639,7 +639,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             return new WP_Error(
                 "tranzzo_refund_error",
                 __(
-                    "Помилка відшкодування: потрібно вказати суму відшкодування.",
+                    "Помилка при поверненні коштів: потрібно вказати суму повернення.",
                     "tranzzo_gateway"
                 )
             );
@@ -670,7 +670,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             return new WP_Error(
                 "tranzzo_refund_error",
                 __(
-                    "Помилка відшкодування: потрібно вказати загальну суму відшкодування -" .
+                    "Помилка при поверненні коштів: потрібно вказати загальну суму повернення -" .
                     $order_total .
                     " " .
                     $order_currency .

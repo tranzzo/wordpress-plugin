@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-02-09 01:52+0200\n"
+"PO-Revision-Date: 2024-02-12 17:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -28,14 +28,14 @@ msgstr "Test mode"
 msgid "Увімкнути тестовий режим"
 msgstr "Enable test mode"
 
-msgid "Блокування коштів"
-msgstr "Blocking of funds"
+msgid "Холдування коштів"
+msgstr "Payment with preauthorization"
 
 msgid "Статус успішного платежу"
 msgstr "Successful payment status"
 
 msgid "Приймайте платежі через Tranzzo Gateway"
-msgstr "Accept payments through Tranzzo Gateway"
+msgstr "Accept payments via Tranzzo Gateway"
 
 msgid "Платіжний шлюз вимкнено."
 msgstr "Payment gateway is disabled."
@@ -44,13 +44,13 @@ msgid "TRANZZO не підтримує валюту Вашого магазин�
 msgstr "TRANZZO does not support the currency of your store!"
 
 msgid "Увімкнено / Вимкнено"
-msgstr "Enable / Disable"
+msgstr "Enabled / Disabled"
 
 msgid "Увімкнути TRANZZO Gateway"
-msgstr "On TRANZZO Gateway"
+msgstr "Enable TRANZZO Gateway"
 
 msgid "Заголовок"
-msgstr "Header"
+msgstr "Title"
 
 msgid "Заголовок, що відображається на сторінці оформлення замовлення"
 msgstr "The title that appears on the ordering page"
@@ -62,10 +62,10 @@ msgid "Опис, який відображається в процесі виб�
 msgstr "The description that is displayed during the payment method selection process"
 
 msgid "Сплатити через платіжну систему TRANZZO"
-msgstr "Pay through the payment system TRANZZO"
+msgstr "Pay via the TRANZZO payment system"
 
 msgid "Заказ успішно оплачений через TRANZZO"
-msgstr "The order has been successfully paid through TRANZZO"
+msgstr "The order has been successfully paid via TRANZZO"
 
 msgid "POS_ID TRANZZO"
 msgstr "POS_ID TRANZZO"
@@ -80,34 +80,34 @@ msgid "ENDPOINTS_KEY TRANZZO"
 msgstr "ENDPOINTS_KEY TRANZZO"
 
 msgid "Заказ в очікуванні оплати"
-msgstr "Order pending payment"
+msgstr "Order is pending payment"
 
-msgid "Помилка відшкодування: платіж за це замовлення не визначено."
-msgstr "Refund Error: Payment for this order has not been determined."
+msgid "Помилка при поверненні коштів: платіж за цим замовленням не знайдено."
+msgstr "Refund Error: Payment for this order has not been found."
 
-msgid "Помилка відшкодування: потрібно вказати суму відшкодування."
+msgid "Помилка при поверненні коштів: потрібно вказати суму повернення."
 msgstr "Refund Error: You need to specify a refund amount."
 
-msgid "Помилка відшкодування: потрібно вказати загальну суму відшкодування -"
+msgid "Помилка при поверненні коштів: потрібно вказати загальну суму повернення -"
 msgstr "Refund Error: You need to specify the total refund amount -"
 
 msgid "Повернено %1$s - Причина: %3$s"
 msgstr "Refunded %1$s - Reason: %3$s"
 
 msgid "ID платежу (payment id): "
-msgstr "Payment id: "
+msgstr "Payment ID: "
 
 msgid "ID транзакції (transaction id): "
-msgstr "Transaction id: "
+msgstr "Transaction ID: "
 
 msgid "Замовлення успішно повернуто через TRANZZO"
-msgstr "The order has been successfully returned via TRANZZO"
+msgstr "The refund for this order has been successfully made via TRANZZO"
 
 msgid "Зарезервована сума платежу зарахована через TRANZZO"
-msgstr "The reserved payment amount is credited through TRANZZO"
+msgstr "The held payment amount is captured via TRANZZO"
 
 msgid "Сума платежу успішно повернута через TRANZZO"
-msgstr "The payment amount has been successfully returned via TRANZZO"
+msgstr "The payment amount has been successfully refunded via TRANZZO"
 
 msgid "Сума платежу зарезервована через TRANZZO, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
-msgstr "The payment amount is reserved through TRANZZO, it is necessary to change the status of the order to 'Processing' in order to credit the funds "
+msgstr "The payment amount is held via TRANZZO, it is necessary to change the status of the order to 'Processing' to capture the funds: "
