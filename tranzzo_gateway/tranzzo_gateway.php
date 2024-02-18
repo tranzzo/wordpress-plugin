@@ -2,7 +2,7 @@
 /*
 Plugin Name: TRANZZO Gateway
 Description: Платіжний шлюз "TRANZZO" для сайтів WordPress.
-Version: 2.0
+Version: 2.0.1
 Last Update: 30.01.2024
 Author: TRANZZO
 Author URI: https://tranzzo.com
