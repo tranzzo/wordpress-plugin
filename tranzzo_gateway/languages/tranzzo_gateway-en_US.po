@@ -19,8 +19,8 @@ msgstr "TRANZZO"
 msgid "Увімкнути"
 msgstr "Enable"
 
-msgid "Tranzzo Gateway"
-msgstr "Tranzzo Gateway"
+msgid "%1$s Gateway"
+msgstr "%1$s Gateway"
 
 msgid "Тестовий режим"
 msgstr "Test mode"
@@ -34,20 +34,20 @@ msgstr "Payment with preauthorization"
 msgid "Статус успішного платежу"
 msgstr "Successful payment status"
 
-msgid "Приймайте платежі через Tranzzo Gateway"
-msgstr "Accept payments via Tranzzo Gateway"
+msgid "Приймайте платежі через %1$s Gateway"
+msgstr "Accept payments via %1$s Gateway"
 
 msgid "Платіжний шлюз вимкнено."
 msgstr "Payment gateway is disabled."
 
-msgid "TRANZZO не підтримує валюту Вашого магазину!"
-msgstr "TRANZZO does not support the currency of your store!"
+msgid "%1$s не підтримує валюту Вашого магазину!"
+msgstr "%1$s does not support the currency of your store!"
 
 msgid "Увімкнено / Вимкнено"
 msgstr "Enabled / Disabled"
 
-msgid "Увімкнути TRANZZO Gateway"
-msgstr "Enable TRANZZO Gateway"
+msgid "Увімкнути %1$s Gateway"
+msgstr "Enable %1$s Gateway"
 
 msgid "Заголовок"
 msgstr "Title"
@@ -61,23 +61,23 @@ msgstr "Description"
 msgid "Опис, який відображається в процесі вибору форми оплати"
 msgstr "The description that is displayed during the payment method selection process"
 
-msgid "Сплатити через платіжну систему TRANZZO"
-msgstr "Pay via the TRANZZO payment system"
+msgid "Сплатити через платіжну систему %1$s"
+msgstr "Pay via the %1$s payment system"
 
-msgid "Заказ успішно оплачений через TRANZZO"
-msgstr "The order has been successfully paid via TRANZZO"
+msgid "Заказ успішно оплачений через %1$s"
+msgstr "The order has been successfully paid via %1$s"
 
-msgid "POS_ID TRANZZO"
-msgstr "POS_ID TRANZZO"
+msgid "POS_ID %1$s"
+msgstr "POS_ID %1$s"
 
-msgid "API_KEY TRANZZO"
-msgstr "API_KEY TRANZZO"
+msgid "API_KEY %1$s"
+msgstr "API_KEY %1$s"
 
-msgid "API_SECRET TRANZZO"
-msgstr "API_SECRET TRANZZO"
+msgid "API_SECRET %1$s"
+msgstr "API_SECRET %1$s"
 
-msgid "ENDPOINTS_KEY TRANZZO"
-msgstr "ENDPOINTS_KEY TRANZZO"
+msgid "ENDPOINTS_KEY %1$s"
+msgstr "ENDPOINTS_KEY %1$s"
 
 msgid "Заказ в очікуванні оплати"
 msgstr "Order is pending payment"
@@ -100,17 +100,17 @@ msgstr "Payment ID: "
 msgid "ID транзакції (transaction id): "
 msgstr "Transaction ID: "
 
-msgid "Замовлення успішно повернуто через TRANZZO"
-msgstr "The refund for this order has been successfully made via TRANZZO"
+msgid "Замовлення успішно повернуто через %1$s"
+msgstr "The refund for this order has been successfully made via %1$s"
 
-msgid "Зарезервована сума платежу зарахована через TRANZZO"
-msgstr "The held payment amount is captured via TRANZZO"
+msgid "Зарезервована сума платежу зарахована через %1$s"
+msgstr "The held payment amount is captured via %1$s"
 
-msgid "Сума платежу успішно повернута через TRANZZO"
-msgstr "The payment amount has been successfully refunded via TRANZZO"
+msgid "Сума платежу успішно повернута через %1$s"
+msgstr "The payment amount has been successfully refunded via %1$s"
 
-msgid "Сума платежу зарезервована через TRANZZO, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
-msgstr "The payment amount is held via TRANZZO, it is necessary to change the status of the order to 'Processing' to capture the funds: "
+msgid "Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
+msgstr "The payment amount is held via %1$s, it is necessary to change the status of the order to 'Processing' to capture the funds: "
 
 msgid "Поля обов’язкові для заповнення"
 msgstr "Required fields"
