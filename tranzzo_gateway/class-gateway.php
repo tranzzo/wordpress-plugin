@@ -124,10 +124,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $this->init_form_fields();
         $this->init_settings();
 
-        add_action("woocommerce_update_options_payment_gateways_" . $this->id, [
+        /*add_action("woocommerce_update_options_payment_gateways_" . $this->id, [
             $this,
             "process_admin_options",
-        ]);
+        ]);*/
     }
 
     /**
@@ -140,17 +140,20 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             <table class="form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
+            <p style="font-size: 12px;">
+                <span style="color: #d63638;">*</span> <?php _e("Поля обов’язкові для заповнення","tranzzo_gateway");?>
+            <p>
         <?php } else { ?>
             <div class="inline error">
-                <p>
-                    <strong><?php _e(
-                            "Платіжний шлюз вимкнено.",
-                            "tranzzo_gateway"
-                        ); ?></strong>: <?php _e(
-                        "TRANZZO не підтримує валюту Вашого магазину!",
+            <p>
+                <strong><?php _e(
+                        "Платіжний шлюз вимкнено.",
                         "tranzzo_gateway"
-                    ); ?>
-                </p>
+                    ); ?></strong>: <?php _e(
+                    "TRANZZO не підтримує валюту Вашого магазину!",
+                    "tranzzo_gateway"
+                ); ?>
+            </p>
             </div>
         <?php }
     }
@@ -213,26 +216,71 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "desc_tip" => true,
             ],
             "POS_ID" => [
-                "title" => "POS_ID",
+                "title" => "POS_ID".'<span style="color: #d63638;">*</span>',
                 "type" => "text",
                 "description" => __("POS_ID TRANZZO", "tranzzo_gateway"),
+                "required"    => true,
             ],
             "API_KEY" => [
-                "title" => "API_KEY",
+                "title" => "API_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
                 "description" => __("API_KEY TRANZZO", "tranzzo_gateway"),
             ],
             "API_SECRET" => [
-                "title" => "API_SECRET",
+                "title" => "API_SECRET".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
                 "description" => __("API_SECRET TRANZZO", "tranzzo_gateway"),
             ],
             "ENDPOINTS_KEY" => [
-                "title" => "ENDPOINTS_KEY",
+                "title" => "ENDPOINTS_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
                 "description" => __("ENDPOINTS_KEY TRANZZO", "tranzzo_gateway"),
             ],
         ];
+    }
+
+    public function validate_POS_ID_field($key, $value) {
+        if ( empty( $value ) ) {
+            WC_Admin_Settings::add_error(
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+            );
+            $value = '';
+        }
+
+        return $value;
+    }
+
+    public function validate_API_KEY_field($key, $value) {
+        if ( empty( $value ) ) {
+            WC_Admin_Settings::add_error(
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+            );
+            $value = '';
+        }
+
+        return $value;
+    }
+
+    public function validate_API_SECRET_field($key, $value) {
+        if ( empty( $value ) ) {
+            WC_Admin_Settings::add_error(
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+            );
+            $value = '';
+        }
+
+        return $value;
+    }
+
+    public function validate_ENDPOINTS_KEY_field($key, $value) {
+        if ( empty( $value ) ) {
+            WC_Admin_Settings::add_error(
+                sprintf(__('Поле %1$s є обов’язковим для заповнення'), $key)
+            );
+            $value = '';
+        }
+
+        return $value;
     }
 
     /**
@@ -264,8 +312,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 foreach ($redirect['args'] as $key => $arg){
                     if(is_array($arg)){
                         wc_add_notice(
-                           $key.': '.http_build_query($arg,'',', '),
-                           'error'
+                            $key.': '.http_build_query($arg,'',', '),
+                            'error'
                         );
                     }else{
                         wc_add_notice($key.': '.$redirect['message'] , 'error');

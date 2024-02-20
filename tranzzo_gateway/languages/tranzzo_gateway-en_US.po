@@ -111,3 +111,9 @@ msgstr "The payment amount has been successfully refunded via TRANZZO"
 
 msgid "Сума платежу зарезервована через TRANZZO, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
 msgstr "The payment amount is held via TRANZZO, it is necessary to change the status of the order to 'Processing' to capture the funds: "
+
+msgid "Поля обов’язкові для заповнення"
+msgstr "Required fields"
+
+msgid "Поле %1$s є обов’язковим для заповнення"
+msgstr "The %1$s field is required"
