@@ -8,6 +8,10 @@ Author: TRANZZO
 Author URI: https://tranzzo.com
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 include(plugin_dir_path(__FILE__) . 'config.php');
 
 add_action('plugins_loaded', 'woocommerceMyPlugin', 0);

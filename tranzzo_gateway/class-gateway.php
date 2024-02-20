@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')){
+    exit;
+}
+
 class My_Custom_Gateway extends WC_Payment_Gateway
 {
     /**
@@ -504,6 +508,13 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $amount_payment >= $amount_order
             ) {
                 self::writeLog("Pay", "ok", "check_response");
+
+                update_post_meta(
+                    $order_id,
+                    "tranzzo_order_is_payment",
+                    1
+                );
+
                 $order->set_transaction_id(
                     $data_response[TranzzoApi::P_RES_TRSACT_ID]
                 );
@@ -788,6 +799,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function capturePayment($order_id)
     {
+        if(get_post_meta($order_id, 'tranzzo_order_is_payment', true ) == 1){
+            return true;
+        }
+
         self::writeLog("capture", $order_id);
 
         $order = wc_get_order($order_id);
@@ -821,7 +836,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $this->ENDPOINTS_KEY
             );
             $data = [
-                "order_currency" => $order_currency,
+                "order_currency" => $this->testMode ? "XTS" : $order_currency,
                 "refund_date" => date("Y-m-d H:i:s"),
                 "order_id" => strval($tranzzo_response["order_id"]),
                 "order_amount" => strval($tranzzo_response["amount"]),

@@ -11,7 +11,8 @@ final class My_Custom_Gateway_Blocks extends AbstractPaymentMethodType
     public function initialize()
     {
         $this->settings = get_option('woocommerce_my_custom_gateway_settings', []);
-        $this->gateway = new My_Custom_Gateway();
+        $gateways = WC()->payment_gateways->payment_gateways();
+        $this->gateway  = $gateways[$this->name];
     }
 
     public function is_active()
