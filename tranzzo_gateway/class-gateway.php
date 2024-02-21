@@ -114,11 +114,11 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         add_action("woocommerce_api_wc_gateway_" . $this->id, [
             $this,
-            "checkTranzzoResponse",
+            "checkTPResponse",
         ]);
 
         //API Callback function
-        add_action('woocommerce_api_'.strtolower(get_class($this)), array(&$this, 'checkTranzzoResponse'));
+        add_action('woocommerce_api_'.strtolower(get_class($this)), array(&$this, 'checkTPResponse'));
 
         add_action("woocommerce_order_status_on-hold_to_processing", [
             $this,
@@ -439,7 +439,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     /**
      * @throws WC_Data_Exception
      */
-    public function checkTranzzoResponse()
+    public function checkTPResponse()
     {
         global $wpdb;
 
@@ -649,6 +649,16 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 );
 
                 return;
+            }elseif (
+                $order->get_status() == "pending" &&
+                $data_response[ApiService::P_RES_STATUS] == ApiService::P_TRZ_ST_FAILURE){
+
+                $order->update_status("cancelled", TPG_TITLE);
+                $order->save();
+                self::writeLog("failed payment", "", "check_response");
+
+                return;
+                exit();
             } elseif ($order->get_status() == "pending") {
                 self::writeLog(
                     "pen",

@@ -58,6 +58,7 @@ class ApiService
     const P_TRZ_ST_CANCEL = 'rejected';
     const P_TRZ_ST_UNSUCCESSFUL = 'unsuccessful';
     const P_TRZ_ST_ANTIFRAUD = 'antifraud';
+    const P_TRZ_ST_FAILURE = 'failure';
 
     const R_METHOD_GET = 'GET';
     const R_METHOD_POST = 'POST';
