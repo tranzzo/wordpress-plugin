@@ -115,5 +115,8 @@ msgstr "The payment amount is held via %1$s, it is necessary to change the statu
 msgid "Поля обов’язкові для заповнення"
 msgstr "Required fields"
 
+msgid "Полe обов’язкове для заповнення"
+msgstr "Required field"
+
 msgid "Поле %1$s є обов’язковим для заповнення"
 msgstr "The %1$s field is required"

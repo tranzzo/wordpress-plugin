@@ -141,7 +141,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     {
         if ($this->supportCurrencyTRANZZO()) { ?>
             <h3><?=TPG_TITLE;?></h3>
-            <table class="form-table">
+            <table class="form-table update-form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
             <p style="font-size: 12px;">

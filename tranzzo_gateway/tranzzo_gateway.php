@@ -64,4 +64,69 @@ function wooRegisterOrderApprovalPaymentMethodType()
         }
     );
 }
+
+add_action('admin_footer', 'custom_payment_gateway_admin_script');
+function custom_payment_gateway_admin_script() {
+    $current_screen = get_current_screen();
+    if ($current_screen->id === 'woocommerce_page_wc-settings') {
+        ?>
+        <style>
+            input[type=text].error-required,
+            input[type=password].error-required{
+                border: 1px solid #d63638;
+            }
+            .custom-field-error{
+                color: #d63638;
+                margin-left: 10px;
+            }
+        </style>
+        <script>
+            console.log('test');
+            jQuery(document).ready(function ($) {
+                const requiredFields = [
+                    $('#woocommerce_my_custom_gateway_POS_ID'),
+                    $('#woocommerce_my_custom_gateway_API_KEY'),
+                    $('#woocommerce_my_custom_gateway_API_SECRET'),
+                    $('#woocommerce_my_custom_gateway_ENDPOINTS_KEY'),
+                ];
+                let formElement = $('.update-form-table').parent('form');
+                let saveButton = formElement.find('.woocommerce-save-button');
+
+                requiredFields.forEach(function(requiredField){
+                    if(requiredField.length) {
+                        requiredField.prop('required', true);
+                    }
+                });
+
+                if(saveButton.length){
+                    saveButton.on('click', function (e) {
+                        $('.error-required').removeClass('error-required');
+                        $('.custom-field-error').remove();
+
+                        let errorsCountEl = 0;
+                        requiredFields.forEach(function(requiredField){
+                            if(requiredField.length && requiredField.val() === "") {
+                                requiredField.addClass('error-required');
+
+                                let htmlEl = '<span class="custom-field-error">'+
+                                    '<?php _e('Полe обов’язкове для заповнення', "tranzzo_gateway"); ?>'+
+                                    '</span>';
+
+                                requiredField.next('.description').append(htmlEl);
+                                errorsCountEl += 1;
+                            }
+                        });
+
+                        if(errorsCountEl > 0){
+                            return false;
+                        }
+                    });
+                }
+
+                return true;
+            });
+        </script>
+        <?php
+    }
+}
 ?>
