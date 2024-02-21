@@ -13,9 +13,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.4.2\n"
 
-msgid "TRANZZO"
-msgstr "TRANZZO"
-
 msgid "Увімкнути"
 msgstr "Enable"
 
@@ -120,3 +117,9 @@ msgstr "Required field"
 
 msgid "Поле %1$s є обов’язковим для заповнення"
 msgstr "The %1$s field is required"
+
+msgid "Платіжний шлюз для сайтів WordPress."
+msgstr "Payment gateway for WordPress sites."
+
+msgid "Платіжний шлюз"
+msgstr "Payment Gateway"

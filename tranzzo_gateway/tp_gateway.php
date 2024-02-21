@@ -1,11 +1,13 @@
 <?php
 /*
-Plugin Name: TRANZZO Gateway
-Description: Платіжний шлюз "TRANZZO" для сайтів WordPress.
+Plugin Name: Платіжний шлюз
+Description: Платіжний шлюз для сайтів WordPress.
 Version: 2.0.1
 Last Update: 30.01.2024
 Author: TRANZZO
 Author URI: https://tranzzo.com
+Text Domain: tp_gateway
+Domain Path: /languages/
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +19,7 @@ include(plugin_dir_path(__FILE__) . 'config.php');
 add_action('plugins_loaded', 'woocommerceMyPlugin', 0);
 function woocommerceMyPlugin()
 {
-    load_plugin_textdomain( 'tranzzo_gateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+    load_plugin_textdomain( 'tp_gateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
     if (!class_exists('WC_Payment_Gateway'))
         return;
@@ -109,7 +111,7 @@ function custom_payment_gateway_admin_script() {
                                 requiredField.addClass('error-required');
 
                                 let htmlEl = '<span class="custom-field-error">'+
-                                    '<?php _e('Полe обов’язкове для заповнення', "tranzzo_gateway"); ?>'+
+                                    '<?php _e('Полe обов’язкове для заповнення', "tp_gateway"); ?>'+
                                     '</span>';
 
                                 requiredField.next('.description').append(htmlEl);

@@ -1,6 +1,6 @@
 <?php
 
-class TranzzoApi
+class ApiService
 {
     /*
      * https://tranzzo.docs.apiary.io/ The Tranzzo API is an HTTP API served by Tranzzo payment core

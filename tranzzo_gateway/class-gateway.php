@@ -77,8 +77,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function __construct()
     {
         $this->id = "my_custom_gateway";
-        $this->methodTitle = sprintf(__('%1$s Gateway', "tranzzo_gateway"), TPG_TITLE);
-        $this->methodDescription = sprintf(__('Приймайте платежі через %1$s Gateway', "tranzzo_gateway"), TPG_TITLE);
+        $this->method_title = sprintf(__('%1$s Gateway', "tp_gateway"), TPG_TITLE);
+        $this->method_description = sprintf(__('Приймайте платежі через %1$s Gateway', "tp_gateway"), TPG_TITLE);
 
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
@@ -97,11 +97,11 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $this->API_SECRET = trim($this->get_option("API_SECRET", "PAY ONLINE"));
         $this->ENDPOINTS_KEY = trim($this->get_option("ENDPOINTS_KEY"));
         $this->icon = apply_filters(
-            "woocommerce_tranzzo_icon",
+            "woocommerce_tp_icon",
             plugin_dir_url(__FILE__) . "/images/logo.png"
         );
 
-        if (!$this->supportCurrencyTRANZZO()) {
+        if (!$this->supportCurrencyAPI()) {
             $this->enabled = "no";
         }
 
@@ -139,23 +139,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function admin_options()
     {
-        if ($this->supportCurrencyTRANZZO()) { ?>
+        if ($this->supportCurrencyAPI()) { ?>
             <h3><?=TPG_TITLE;?></h3>
             <table class="form-table update-form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
             <p style="font-size: 12px;">
-                <span style="color: #d63638;">*</span> <?php _e("Поля обов’язкові для заповнення","tranzzo_gateway");?>
+                <span style="color: #d63638;">*</span> <?php _e("Поля обов’язкові для заповнення","tp_gateway");?>
             <p>
         <?php } else { ?>
             <div class="inline error">
             <p>
                 <strong><?php _e(
                         "Платіжний шлюз вимкнено.",
-                        "tranzzo_gateway"
+                        "tp_gateway"
                     ); ?></strong>: <?php sprintf(_e(
                     '%1$s не підтримує валюту Вашого магазину!',
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 ), TPG_TITLE); ?>
             </p>
             </div>
@@ -169,51 +169,51 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     {
         $this->form_fields = [
             "enabled" => [
-                "title" => __("Увімкнено / Вимкнено", "tranzzo_gateway"),
+                "title" => __("Увімкнено / Вимкнено", "tp_gateway"),
                 "type" => "checkbox",
-                "label" => sprintf(__('Увімкнути %1$s Gateway', "tranzzo_gateway"), TPG_TITLE),
+                "label" => sprintf(__('Увімкнути %1$s Gateway', "tp_gateway"), TPG_TITLE),
                 "default" => "yes",
             ],
             "test_mode" => [
-                "title" => __("Тестовий режим", "tranzzo_gateway"),
+                "title" => __("Тестовий режим", "tp_gateway"),
                 "type" => "checkbox",
-                "label" => __("Увімкнути тестовий режим", "tranzzo_gateway"),
+                "label" => __("Увімкнути тестовий режим", "tp_gateway"),
                 "default" => "yes",
             ],
             "title" => [
-                "title" => __("Заголовок", "tranzzo_gateway"),
+                "title" => __("Заголовок", "tp_gateway"),
                 "type" => "text",
                 "description" => __(
                     "Заголовок, що відображається на сторінці оформлення замовлення",
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 ),
                 "default" => TPG_TITLE,
                 "desc_tip" => true,
             ],
             "description" => [
-                "title" => __("Опис", "tranzzo_gateway"),
+                "title" => __("Опис", "tp_gateway"),
                 "type" => "textarea",
                 "description" => __(
                     "Опис, який відображається в процесі вибору форми оплати",
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 ),
                 "default" => sprintf(__(
                     'Сплатити через платіжну систему %1$s',
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 ), TPG_TITLE),
             ],
             "typePayment" => [
-                "title" => __("Холдування коштів", "tranzzo_gateway"),
+                "title" => __("Холдування коштів", "tp_gateway"),
                 "type" => "checkbox",
-                "label" => __("Увімкнути", "tranzzo_gateway"),
+                "label" => __("Увімкнути", "tp_gateway"),
                 "default" => "no",
             ],
             "custom_success_status" => [
-                "title" => __("Статус успішного платежу", "tranzzo_gateway"),
+                "title" => __("Статус успішного платежу", "tp_gateway"),
                 "type" => "select",
                 "description" => __(
                     "Upon successful payment, set the current status of the WooCommerce order",
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-processing",
@@ -222,23 +222,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             "POS_ID" => [
                 "title" => "POS_ID".'<span style="color: #d63638;">*</span>',
                 "type" => "text",
-                "description" => sprintf(__('POS_ID %1$s', "tranzzo_gateway"), TPG_TITLE),
+                "description" => sprintf(__('POS_ID %1$s', "tp_gateway"), TPG_TITLE),
                 "required"    => true,
             ],
             "API_KEY" => [
                 "title" => "API_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
-                "description" => sprintf(__('API_KEY %1$s', "tranzzo_gateway"), TPG_TITLE),
+                "description" => sprintf(__('API_KEY %1$s', "tp_gateway"), TPG_TITLE),
             ],
             "API_SECRET" => [
                 "title" => "API_SECRET".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
-                "description" => sprintf(__('API_SECRET %1$s', "tranzzo_gateway"), TPG_TITLE),
+                "description" => sprintf(__('API_SECRET %1$s', "tp_gateway"), TPG_TITLE),
             ],
             "ENDPOINTS_KEY" => [
                 "title" => "ENDPOINTS_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
-                "description" => sprintf(__('ENDPOINTS_KEY %1$s', "tranzzo_gateway"), TPG_TITLE),
+                "description" => sprintf(__('ENDPOINTS_KEY %1$s', "tp_gateway"), TPG_TITLE),
             ],
         ];
     }
@@ -246,7 +246,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_POS_ID_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -257,7 +257,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_API_KEY_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -268,7 +268,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_API_SECRET_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -279,7 +279,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_ENDPOINTS_KEY_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tranzzo_gateway"), $key)
+                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -290,7 +290,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     /**
      * @return bool
      */
-    function supportCurrencyTRANZZO()
+    function supportCurrencyAPI()
     {
         if (!in_array(get_option("woocommerce_currency"), ["USD", "EUR", "UAH", "RUB",])) {
             return false;
@@ -351,36 +351,36 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $data_order = $order->get_data();
 
         if (!empty($data_order)) {
-            require_once __DIR__ . "/TranzzoApi.php";
+            require_once __DIR__ . "/ApiService.php";
 
-            $tranzzo = new TranzzoApi(
+            $apiService = new ApiService(
                 $this->POS_ID,
                 $this->API_KEY,
                 $this->API_SECRET,
                 $this->ENDPOINTS_KEY
             );
-            $tranzzo->setServerUrl(
+            $apiService->setServerUrl(
                 add_query_arg("wc-api", __CLASS__, home_url("/"))
             );
-            $tranzzo->setResultUrl($this->get_return_url($order));
-            $tranzzo->setOrderId($order_id);
-            $tranzzo->setAmount($this->testMode ? 1 : $data_order["total"]);
-            $tranzzo->setCurrency($this->testMode ? "XTS" : $data_order["currency"]);
-            $tranzzo->setDescription("Order #{$order_id}");
+            $apiService->setResultUrl($this->get_return_url($order));
+            $apiService->setOrderId($order_id);
+            $apiService->setAmount($this->testMode ? 1 : $data_order["total"]);
+            $apiService->setCurrency($this->testMode ? "XTS" : $data_order["currency"]);
+            $apiService->setDescription("Order #{$order_id}");
 
             if (!empty($data_order["customer_id"])) {
-                $tranzzo->setCustomerId($data_order["customer_id"]);
+                $apiService->setCustomerId($data_order["customer_id"]);
             } else {
-                $tranzzo->setCustomerId($data_order["billing"]["email"]);
+                $apiService->setCustomerId($data_order["billing"]["email"]);
             }
 
-            $tranzzo->setCustomerEmail($data_order["billing"]["email"]);
-            $tranzzo->setCustomerFirstName(
+            $apiService->setCustomerEmail($data_order["billing"]["email"]);
+            $apiService->setCustomerFirstName(
                 $data_order["billing"]["first_name"]
             );
-            $tranzzo->setCustomerLastName($data_order["billing"]["last_name"]);
-            $tranzzo->setCustomerPhone($data_order["billing"]["phone"]);
-            $tranzzo->setProducts();
+            $apiService->setCustomerLastName($data_order["billing"]["last_name"]);
+            $apiService->setCustomerPhone($data_order["billing"]["phone"]);
+            $apiService->setProducts();
 
             if (count($data_order["line_items"]) > 0) {
                 $products = [];
@@ -391,19 +391,19 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                         "name" => $product->get_name(),
                         "url" => $product->get_product()->get_permalink(),
                         "currency" => $this->testMode ? "XTS" : $data_order["currency"],
-                        "amount" => TranzzoApi::amountToDouble(
+                        "amount" => ApiService::amountToDouble(
                             $product->get_total()
                         ),
                         "qty" => $product->get_quantity(),
                     ];
                 }
 
-                $tranzzo->setProducts($products);
+                $apiService->setProducts($products);
             }
 
             self::writeLog(add_query_arg("wc-api", __CLASS__, home_url("/")), "1");
 
-            $response = $tranzzo->createPaymentHosted($this->typePayment);
+            $response = $apiService->createPaymentHosted($this->typePayment);
 
             self::writeLog($response, '$response');
 
@@ -458,65 +458,65 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             die("LOL! Bad Request!!!");
         }
 
-        require_once __DIR__ . "/TranzzoApi.php";
+        require_once __DIR__ . "/ApiService.php";
 
-        $tranzzo = new TranzzoApi(
+        $apiService = new ApiService(
             $this->POS_ID,
             $this->API_KEY,
             $this->API_SECRET,
             $this->ENDPOINTS_KEY
         );
-        $data_response = TranzzoApi::parseDataResponse($data);
+        $data_response = ApiService::parseDataResponse($data);
 
-        $method_response = $data_response[TranzzoApi::P_REQ_METHOD];
+        $method_response = $data_response[ApiService::P_REQ_METHOD];
         self::writeLog($method_response, '$method_response', "check_response");
         self::writeLog($data_response, '$data_response', "check_response");
 
         if (
-            $method_response == TranzzoApi::P_METHOD_AUTH ||
-            $method_response == TranzzoApi::P_METHOD_PURCHASE
+            $method_response == ApiService::P_METHOD_AUTH ||
+            $method_response == ApiService::P_METHOD_PURCHASE
         ) {
-            $order_id = (int)$data_response[TranzzoApi::P_RES_PROV_ORDER];
-            $tranzzo_order_id = (int)$data_response[TranzzoApi::P_RES_ORDER];
+            $order_id = (int)$data_response[ApiService::P_RES_PROV_ORDER];
+            $TPOrderId = (int)$data_response[ApiService::P_RES_ORDER];
 
             self::writeLog(1, 'get_$order_id', "check_response");
         } else {
-            $tranzzo_order_id = (int)$data_response[TranzzoApi::P_RES_ORDER];
+            $TPOrderId = (int)$data_response[ApiService::P_RES_ORDER];
             $order_id = $wpdb->get_var(
-                "SELECT post_id as count FROM {$wpdb->postmeta} WHERE meta_key = 'tranzzo_order_id' AND meta_value = $tranzzo_order_id"
+                "SELECT post_id as count FROM {$wpdb->postmeta} WHERE meta_key = 'TPOrderId' AND meta_value = $TPOrderId"
             );
 
             self::writeLog(2, 'get_$order_id', "check_response");
         }
 
         self::writeLog($order_id, '$order_id');
-        self::writeLog($tranzzo_order_id, '$tranzzo_order_id');
+        self::writeLog($TPOrderId, '$TPOrderId');
 
-        if ($tranzzo->validateSignature($data, $signature) && $order_id) {
+        if ($apiService->validateSignature($data, $signature) && $order_id) {
             $order = wc_get_order($order_id);
             self::writeLog("sign valid", "check_response");
 
-            $amount_payment = TranzzoApi::amountToDouble(
-                $data_response[TranzzoApi::P_RES_AMOUNT]
+            $amount_payment = ApiService::amountToDouble(
+                $data_response[ApiService::P_RES_AMOUNT]
             );
 
             $woocommerceOrderTotal = $this->testMode ? 1 : $order->get_total();
-            $amount_order = TranzzoApi::amountToDouble($woocommerceOrderTotal);
+            $amount_order = ApiService::amountToDouble($woocommerceOrderTotal);
 
             if (
-                $data_response[TranzzoApi::P_RES_RESP_CODE] == 1000 &&
+                $data_response[ApiService::P_RES_RESP_CODE] == 1000 &&
                 $amount_payment >= $amount_order
             ) {
                 self::writeLog("Pay", "ok", "check_response");
 
                 update_post_meta(
                     $order_id,
-                    "tranzzo_order_is_payment",
+                    "tp_order_is_payment",
                     1
                 );
 
                 $order->set_transaction_id(
-                    $data_response[TranzzoApi::P_RES_TRSACT_ID]
+                    $data_response[ApiService::P_RES_TRSACT_ID]
                 );
                 $order->payment_complete();
 
@@ -525,69 +525,69 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     $order->update_status($this->successStatus);
                 }
                 $order->add_order_note(
-                    sprintf(__('Заказ успішно оплачений через %1$s', "tranzzo_gateway"), TPG_TITLE)
+                    sprintf(__('Заказ успішно оплачений через %1$s', "tp_gateway"), TPG_TITLE)
                 );
                 $order->add_order_note(
                     __("ID платежу (payment id): ") .
-                    $data_response[TranzzoApi::P_RES_PAYMENT_ID]
+                    $data_response[ApiService::P_RES_PAYMENT_ID]
                 );
                 $order->add_order_note(
                     __("ID транзакції (transaction id): ") .
-                    $data_response[TranzzoApi::P_RES_TRSACT_ID]
+                    $data_response[ApiService::P_RES_TRSACT_ID]
                 );
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tranzzo_response",
+                    "tp_response",
                     json_encode($data_response)
                 );
                 update_post_meta(
                     $order_id,
-                    "tranzzo_order_id",
-                    $tranzzo_order_id
+                    "TPOrderId",
+                    $TPOrderId
                 );
 
                 self::writeLog("Pay", "end", "check_response");
                 exit();
             } elseif (
-                $data_response[TranzzoApi::P_RES_RESP_CODE] == 1002 &&
+                $data_response[ApiService::P_RES_RESP_CODE] == 1002 &&
                 $amount_payment >= $amount_order
             ) {
                 self::writeLog("pay", "auth", "check_response");
                 $order->set_transaction_id(
-                    $data_response[TranzzoApi::P_RES_TRSACT_ID]
+                    $data_response[ApiService::P_RES_TRSACT_ID]
                 );
                 $order->update_status("on-hold", TPG_TITLE);
 
                 $order->add_order_note(
                     __("ID платежу (payment id): ") .
-                    $data_response[TranzzoApi::P_RES_PAYMENT_ID]
+                    $data_response[ApiService::P_RES_PAYMENT_ID]
                 );
                 $order->add_order_note(
                     __("ID транзакції (transaction id): ") .
-                    $data_response[TranzzoApi::P_RES_TRSACT_ID]
+                    $data_response[ApiService::P_RES_TRSACT_ID]
                 );
                 $order->add_order_note(
-                    sprintf(__('Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на "Обробка" для зарахування коштів', "tranzzo_gateway"), TPG_TITLE)
+                    sprintf(__('Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на "Обробка" для зарахування коштів', "tp_gateway"), TPG_TITLE)
                 );
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tranzzo_response",
+                    "tp_response",
                     json_encode($data_response)
                 );
                 update_post_meta(
                     $order_id,
-                    "tranzzo_order_id",
-                    $tranzzo_order_id
+                    "TPOrderId",
+                    $TPOrderId
                 );
 
                 return;
                 exit();
             } elseif (
-                $method_response == TranzzoApi::U_METHOD_VOID &&
-                $data_response[TranzzoApi::P_RES_STATUS] ==
-                TranzzoApi::P_TRZ_ST_SUCCESS
+                $method_response == ApiService::U_METHOD_VOID &&
+                $data_response[ApiService::P_RES_STATUS] ==
+                ApiService::P_TRZ_ST_SUCCESS
             ) {
                 self::writeLog("!!!!!!!!! void", "", "check_response");
                 $order->update_status("cancelled", TPG_TITLE);
@@ -595,56 +595,56 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->add_order_note(
                     sprintf(__(
                         'Сума платежу успішно повернута через %1$s',
-                        "tranzzo_gateway"
+                        "tp_gateway"
                     ), TPG_TITLE)
                 );
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tranzzo_response",
+                    "tp_response",
                     json_encode($data_response)
                 );
 
                 return;
                 exit();
             } elseif (
-                $method_response == TranzzoApi::U_METHOD_CAPTURE &&
-                $data_response[TranzzoApi::P_RES_STATUS] ==
-                TranzzoApi::P_TRZ_ST_SUCCESS
+                $method_response == ApiService::U_METHOD_CAPTURE &&
+                $data_response[ApiService::P_RES_STATUS] ==
+                ApiService::P_TRZ_ST_SUCCESS
             ) {
                 self::writeLog("!!!!!!!!! capture", "", "check_response");
                 $order->add_order_note(
                     sprintf(__(
                         'Зарезервована сума платежу зарахована через %1$s',
-                        "tranzzo_gateway"
+                        "tp_gateway"
                     ), TPG_TITLE)
                 );
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tranzzo_response",
+                    "tp_response",
                     json_encode($data_response)
                 );
 
                 return;
                 exit();
             } elseif (
-                $method_response == TranzzoApi::U_METHOD_REFUND &&
-                $data_response[TranzzoApi::P_RES_STATUS] ==
-                TranzzoApi::P_TRZ_ST_SUCCESS
+                $method_response == ApiService::U_METHOD_REFUND &&
+                $data_response[ApiService::P_RES_STATUS] ==
+                ApiService::P_TRZ_ST_SUCCESS
             ) {
                 $order->add_order_note(
-                    sprintf(__('Замовлення успішно повернуто через %1$s', "tranzzo_gateway"), TPG_TITLE)
+                    sprintf(__('Замовлення успішно повернуто через %1$s', "tp_gateway"), TPG_TITLE)
                 );
                 $order->add_order_note(
                     __("ID платежу (payment id): ") .
-                    $data_response[TranzzoApi::P_RES_PAYMENT_ID]
+                    $data_response[ApiService::P_RES_PAYMENT_ID]
                 );
 
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tranzzo_response",
+                    "tp_response",
                     json_encode($data_response)
                 );
 
@@ -657,7 +657,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 );
 
                 $order->add_order_note(
-                    __("Заказ в очікуванні оплати", "tranzzo_gateway")
+                    __("Заказ в очікуванні оплати", "tp_gateway")
                 );
                 $order->save();
             }
@@ -687,19 +687,19 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         if (!$order || !$order->get_transaction_id()) {
             return new WP_Error(
-                "tranzzo_refund_error",
+                "tp_refund_error",
                 __(
                     "Помилка при поверненні коштів: платіж за цим замовленням не знайдено.",
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 )
             );
         }
         if (0 == $amount || null == $amount) {
             return new WP_Error(
-                "tranzzo_refund_error",
+                "tp_refund_error",
                 __(
                     "Помилка при поверненні коштів: потрібно вказати суму повернення.",
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 )
             );
         }
@@ -716,30 +716,30 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             $order_currency = "XTS";
         }
 
-        require_once __DIR__ . "/TranzzoApi.php";
-        $tranzzo_response = get_post_custom_values(
-            "tranzzo_response",
+        require_once __DIR__ . "/ApiService.php";
+        $tp_response = get_post_custom_values(
+            "tp_response",
             $order_id
         );
-        $tranzzo_response = json_decode($tranzzo_response[0], true);
+        $tp_response = json_decode($tp_response[0], true);
 
         $order_total = get_post_meta($order_id, "_order_total", true);
         if ($amount < $order_total) {
 
             return new WP_Error(
-                "tranzzo_refund_error",
+                "tp_refund_error",
                 __(
                     "Помилка при поверненні коштів: потрібно вказати загальну суму повернення -" .
                     $order_total .
                     " " .
                     $order_currency .
                     ".",
-                    "tranzzo_gateway"
+                    "tp_gateway"
                 )
             );
         }
 
-        $tranzzo = new TranzzoApi(
+        $apiService = new ApiService(
             $this->POS_ID,
             $this->API_KEY,
             $this->API_SECRET,
@@ -748,23 +748,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $data = [
             "order_currency" => $order_currency,
             "refund_date" => date("Y-m-d H:i:s"),
-            "order_id" => strval($tranzzo_response["order_id"]),
-            "order_amount" => strval($tranzzo_response["amount"]),
+            "order_id" => strval($tp_response["order_id"]),
+            "order_amount" => strval($tp_response["amount"]),
             "provider_order_id" => strval(
-                $tranzzo_response["provider_order_id"]
+                $tp_response["provider_order_id"]
             ),
             "server_url" => add_query_arg("wc-api", __CLASS__, home_url("/")),
         ];
 
         self::writeLog(["data" => $data]);
 
-        switch ($tranzzo_response["method"]) {
-            case TranzzoApi::P_METHOD_AUTH:
-                $response = $tranzzo->createVoid($data);
+        switch ($tp_response["method"]) {
+            case ApiService::P_METHOD_AUTH:
+                $response = $apiService->createVoid($data);
                 break;
-            case TranzzoApi::P_METHOD_CAPTURE:
-            case TranzzoApi::P_METHOD_PURCHASE:
-                $response = $tranzzo->createRefund($data);
+            case ApiService::P_METHOD_CAPTURE:
+            case ApiService::P_METHOD_PURCHASE:
+                $response = $apiService->createRefund($data);
                 break;
         }
 
@@ -773,13 +773,13 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         if ($response["status"] != "success") {
             return new WP_Error(
-                "tranzzo_refund_error",
-                __($response["message"], "tranzzo_gateway")
+                "tp_refund_error",
+                __($response["message"], "tp_gateway")
             );
         } else {
             self::writeLog("success", "");
             $refund_message = sprintf(
-                __('Повернено %1$s - Причина: %3$s', "tranzzo_gateway"),
+                __('Повернено %1$s - Причина: %3$s', "tp_gateway"),
                 $amount,
                 $reason
             );
@@ -799,23 +799,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function capturePayment($order_id)
     {
-        if(get_post_meta($order_id, 'tranzzo_order_is_payment', true ) == 1){
+        if(get_post_meta($order_id, 'tp_order_is_payment', true ) == 1){
             return true;
         }
 
         self::writeLog("capture", $order_id);
 
         $order = wc_get_order($order_id);
-        require_once __DIR__ . "/TranzzoApi.php";
-        $tranzzo_response = get_post_custom_values(
-            "tranzzo_response",
+        require_once __DIR__ . "/ApiService.php";
+        $tp_response = get_post_custom_values(
+            "tp_response",
             $order_id
         );
-        $tranzzo_response = json_decode($tranzzo_response[0], true);
+        $tp_response = json_decode($tp_response[0], true);
 
         if (
             $this->id === $order->get_payment_method() &&
-            TranzzoApi::P_METHOD_AUTH === $tranzzo_response["method"] &&
+            ApiService::P_METHOD_AUTH === $tp_response["method"] &&
             $order->get_transaction_id()
         ) {
             $old_wc = version_compare(WC_VERSION, "3.0", "<");
@@ -829,7 +829,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order_currency = $order->get_currency();
             }
 
-            $tranzzo = new TranzzoApi(
+            $apiService = new ApiService(
                 $this->POS_ID,
                 $this->API_KEY,
                 $this->API_SECRET,
@@ -838,10 +838,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             $data = [
                 "order_currency" => $this->testMode ? "XTS" : $order_currency,
                 "refund_date" => date("Y-m-d H:i:s"),
-                "order_id" => strval($tranzzo_response["order_id"]),
-                "order_amount" => strval($tranzzo_response["amount"]),
+                "order_id" => strval($tp_response["order_id"]),
+                "order_amount" => strval($tp_response["amount"]),
                 "provider_order_id" => strval(
-                    $tranzzo_response["provider_order_id"]
+                    $tp_response["provider_order_id"]
                 ),
                 "server_url" => add_query_arg(
                     "wc-api",
@@ -849,7 +849,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     home_url("/")
                 ),
             ];
-            $response = $tranzzo->createCapture($data);
+            $response = $apiService->createCapture($data);
 
             self::writeLog(["response" => $response]);
             self::writeLog("status", $response["status"]);
@@ -857,8 +857,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             if ($response["status"] != "success") {
 
                 return new WP_Error(
-                    "tranzzo_refund_error",
-                    __($response["message"], "tranzzo_gateway")
+                    "tp_refund_error",
+                    __($response["message"], "tp_gateway")
                 );
             } else {
                 self::writeLog("success", "");
