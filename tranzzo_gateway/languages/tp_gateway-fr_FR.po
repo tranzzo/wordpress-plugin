@@ -1,0 +1,125 @@
+# Translation of WordPress - Administration in English
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-22 00:41+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "Увімкнути"
+msgstr "Activer"
+
+msgid "%1$s Gateway"
+msgstr "%1$s Passerelle"
+
+msgid "Тестовий режим"
+msgstr "Mode test"
+
+msgid "Увімкнути тестовий режим"
+msgstr "Activer le mode test"
+
+msgid "Холдування коштів"
+msgstr "Détention de fonds"
+
+msgid "Статус успішного платежу"
+msgstr "Statut de paiement réussi"
+
+msgid "Приймайте платежі через %1$s Gateway"
+msgstr "Accepter les paiements via la passerelle %1$s"
+
+msgid "Платіжний шлюз вимкнено."
+msgstr "La passerelle de paiement est désactivée."
+
+msgid "%1$s не підтримує валюту Вашого магазину!"
+msgstr "%1$s ne prend pas en charge la devise de votre boutique !"
+
+msgid "Увімкнено / Вимкнено"
+msgstr "Activé/Désactivé"
+
+msgid "Увімкнути %1$s Gateway"
+msgstr "Activer la passerelle %1$s"
+
+msgid "Заголовок"
+msgstr "Titre"
+
+msgid "Заголовок, що відображається на сторінці оформлення замовлення"
+msgstr "Rubrique affichée sur la page de paiement"
+
+msgid "Опис"
+msgstr "Descriptif"
+
+msgid "Опис, який відображається в процесі вибору форми оплати"
+msgstr "La description qui s'affiche lors du processus de choix d'un mode de paiement"
+
+msgid "Сплатити через платіжну систему %1$s"
+msgstr "Payer via le système de paiement %1$s"
+
+msgid "Заказ успішно оплачений через %1$s"
+msgstr "Commande payée avec succès en %1$s"
+
+msgid "POS_ID %1$s"
+msgstr "POS_ID %1$s"
+
+msgid "API_KEY %1$s"
+msgstr "API_KEY %1$s"
+
+msgid "API_SECRET %1$s"
+msgstr "API_SECRET %1$s"
+
+msgid "ENDPOINTS_KEY %1$s"
+msgstr "ENDPOINTS_KEY %1$s"
+
+msgid "Заказ в очікуванні оплати"
+msgstr "Commande en attente de paiement"
+
+msgid "Помилка при поверненні коштів: платіж за цим замовленням не знайдено."
+msgstr "Erreur de remboursement : Aucun paiement trouvé pour cette commande."
+
+msgid "Помилка при поверненні коштів: потрібно вказати суму повернення."
+msgstr "Erreur de remboursement : Montant du remboursement requis."
+
+msgid "Помилка при поверненні коштів: потрібно вказати загальну суму повернення -"
+msgstr "Erreur lors du remboursement : vous devez préciser le montant total du remboursement -"
+
+msgid "Повернено %1$s - Причина: %3$s"
+msgstr "%1$s renvoyé - Raison : %3$s"
+
+msgid "ID платежу (payment id): "
+msgstr "ID de paiement (identifiant de paiement): "
+
+msgid "ID транзакції (transaction id): "
+msgstr "ID de transaction (identifiant de transaction): "
+
+msgid "Замовлення успішно повернуто через %1$s"
+msgstr "Commande retournée avec succès dans %1$s"
+
+msgid "Зарезервована сума платежу зарахована через %1$s"
+msgstr "Montant du paiement réservé crédité après %1$s"
+
+msgid "Сума платежу успішно повернута через %1$s"
+msgstr "Montant du paiement renvoyé avec succès en %1$s"
+
+msgid "Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
+msgstr "Le montant du paiement est réservé en %1$s, il faut changer le statut de la commande en 'Traitement' pour créditer les fonds: "
+
+msgid "Поля обов’язкові для заповнення"
+msgstr "Les champs sont obligatoires"
+
+msgid "Полe обов’язкове для заповнення"
+msgstr "Le champ est obligatoire"
+
+msgid "Поле %1$s є обов’язковим для заповнення"
+msgstr "Le champ %1$s est obligatoire"
+
+msgid "Платіжний шлюз для сайтів WordPress."
+msgstr "Passerelle de paiement pour les sites WordPress."
+
+msgid "Платіжний шлюз"
+msgstr "Passerelle de paiement"

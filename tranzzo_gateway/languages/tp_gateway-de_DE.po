@@ -1,0 +1,126 @@
+# Translation of WordPress - Administration in English
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2024-02-22 00:33+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "Увімкнути"
+msgstr "Aktivieren"
+
+msgid "%1$s Gateway"
+msgstr "%1$s Zahlungs-Gateways"
+
+msgid "Тестовий режим"
+msgstr "Testmodus"
+
+msgid "Увімкнути тестовий режим"
+msgstr "Testmodus aktivieren"
+
+msgid "Холдування коштів"
+msgstr "Halten von Geldern"
+
+msgid "Статус успішного платежу"
+msgstr "Status der erfolgreichen Zahlung"
+
+msgid "Приймайте платежі через %1$s Gateway"
+msgstr "Zahlungen über %1$s Gateway akzeptieren"
+
+msgid "Платіжний шлюз вимкнено."
+msgstr "Das Zahlungsgateway ist deaktiviert."
+
+msgid "%1$s не підтримує валюту Вашого магазину!"
+msgstr "%1$s unterstützt die Währung Ihres Shops nicht!"
+
+msgid "Увімкнено / Вимкнено"
+msgstr "Aktiviert/Deaktiviert"
+
+msgid "Увімкнути %1$s Gateway"
+msgstr "%1$s Gateway aktivieren"
+
+msgid "Заголовок"
+msgstr "Titel"
+
+msgid "Заголовок, що відображається на сторінці оформлення замовлення"
+msgstr "Überschrift wird auf der Checkout-Seite angezeigt"
+
+msgid "Опис"
+msgstr "Beschreibung"
+
+msgid "Опис, який відображається в процесі вибору форми оплати"
+msgstr "Die Beschreibung, die bei der Auswahl einer Zahlungsart angezeigt wird"
+
+msgid "Сплатити через платіжну систему %1$s"
+msgstr "Bezahlen Sie über das Zahlungssystem von %1$"
+
+msgid "Заказ успішно оплачений через %1$s"
+msgstr "Bestellung in %1$s erfolgreich bezahlt"
+
+msgid "POS_ID %1$s"
+msgstr "POS_ID %1$s"
+
+msgid "API_KEY %1$s"
+msgstr "API_KEY %1$s"
+
+msgid "API_SECRET %1$s"
+msgstr "API_SECRET %1$s"
+
+msgid "ENDPOINTS_KEY %1$s"
+msgstr "ENDPOINTS_KEY %1$s"
+
+msgid "Заказ в очікуванні оплати"
+msgstr "Bestellung steht zur Zahlung aus"
+
+msgid "Помилка при поверненні коштів: платіж за цим замовленням не знайдено."
+msgstr "Rückerstattungsfehler: Für diese Bestellung wurde keine Zahlung gefunden."
+
+msgid "Помилка при поверненні коштів: потрібно вказати суму повернення."
+msgstr "Rückerstattungsfehler: Rückerstattungsbetrag erforderlich."
+
+msgid "Помилка при поверненні коштів: потрібно вказати загальну суму повернення -"
+msgstr "Fehler bei der Rückerstattung: Sie müssen den Gesamtbetrag der Rückerstattung angeben -"
+
+msgid "Повернено %1$s - Причина: %3$s"
+msgstr "%1$s zurückgegeben – Grund: %3$s"
+
+msgid "ID платежу (payment id): "
+msgstr "Zahlungs-ID (Zahlungs-ID): "
+
+msgid "ID транзакції (transaction id): "
+msgstr "Transaktions-ID (Transaktions-ID): "
+
+msgid "Замовлення успішно повернуто через %1$s"
+msgstr "Bestellung erfolgreich in %1$s zurückgegeben"
+
+msgid "Зарезервована сума платежу зарахована через %1$s"
+msgstr "Reservierter Zahlungsbetrag nach %1$s gutgeschrieben"
+
+msgid "Сума платежу успішно повернута через %1$s"
+msgstr "Zahlungsbetrag in %1$s erfolgreich zurückgegeben"
+
+msgid "Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
+msgstr ""
+"Der Zahlungsbetrag ist in %1$s reserviert. Um den Betrag gutzuschreiben, muss der Status der Bestellung auf „In Bearbeitung“ geändert werden: "
+
+msgid "Поля обов’язкові для заповнення"
+msgstr "Felder sind Pflichtfelder"
+
+msgid "Полe обов’язкове для заповнення"
+msgstr "Das Feld ist Pflichtfeld"
+
+msgid "Поле %1$s є обов’язковим для заповнення"
+msgstr "Feld %1$s ist obligatorisch"
+
+msgid "Платіжний шлюз для сайтів WordPress."
+msgstr "Zahlungsgateway für WordPress-Sites."
+
+msgid "Платіжний шлюз"
+msgstr "Zahlungsgateway"
