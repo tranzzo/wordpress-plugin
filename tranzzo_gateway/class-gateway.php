@@ -77,8 +77,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function __construct()
     {
         $this->id = "my_custom_gateway";
-        $this->method_title = sprintf(__('%1$s Gateway', "tp_gateway"), TPG_TITLE);
-        $this->method_description = sprintf(__('Приймайте платежі через %1$s Gateway', "tp_gateway"), TPG_TITLE);
+        $this->method_title = sprintf(__('%s Gateway', "tp_gateway"), TPG_TITLE);
+        $this->method_description = sprintf(__('Приймайте платежі через %s Gateway ', "tp_gateway"), TPG_TITLE);
 
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
@@ -154,7 +154,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                         "Платіжний шлюз вимкнено.",
                         "tp_gateway"
                     ); ?></strong>: <?php sprintf(_e(
-                    '%1$s не підтримує валюту Вашого магазину!',
+                    '%s не підтримує валюту Вашого магазину!',
                     "tp_gateway"
                 ), TPG_TITLE); ?>
             </p>
@@ -171,7 +171,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             "enabled" => [
                 "title" => __("Увімкнено / Вимкнено", "tp_gateway"),
                 "type" => "checkbox",
-                "label" => sprintf(__('Увімкнути %1$s Gateway', "tp_gateway"), TPG_TITLE),
+                "label" => sprintf(__('Увімкнути %s Gateway ', "tp_gateway"), TPG_TITLE),
                 "default" => "yes",
             ],
             "test_mode" => [
@@ -198,7 +198,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     "tp_gateway"
                 ),
                 "default" => sprintf(__(
-                    'Сплатити через платіжну систему %1$s',
+                    'Сплатити через платіжну систему %s ',
                     "tp_gateway"
                 ), TPG_TITLE),
             ],
@@ -222,23 +222,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             "POS_ID" => [
                 "title" => "POS_ID".'<span style="color: #d63638;">*</span>',
                 "type" => "text",
-                "description" => sprintf(__('POS_ID %1$s', "tp_gateway"), TPG_TITLE),
+                "description" => sprintf(__('POS_ID %s ', "tp_gateway"), TPG_TITLE),
                 "required"    => true,
             ],
             "API_KEY" => [
                 "title" => "API_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
-                "description" => sprintf(__('API_KEY %1$s', "tp_gateway"), TPG_TITLE),
+                "description" => sprintf(__('API_KEY %s ', "tp_gateway"), TPG_TITLE),
             ],
             "API_SECRET" => [
                 "title" => "API_SECRET".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
-                "description" => sprintf(__('API_SECRET %1$s', "tp_gateway"), TPG_TITLE),
+                "description" => sprintf(__('API_SECRET %s ', "tp_gateway"), TPG_TITLE),
             ],
             "ENDPOINTS_KEY" => [
                 "title" => "ENDPOINTS_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
-                "description" => sprintf(__('ENDPOINTS_KEY %1$s', "tp_gateway"), TPG_TITLE),
+                "description" => sprintf(__('ENDPOINTS_KEY %s ', "tp_gateway"), TPG_TITLE),
             ],
         ];
     }
@@ -246,7 +246,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_POS_ID_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
+                sprintf(__('Поле %s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -257,7 +257,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_API_KEY_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
+                sprintf(__('Поле %s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -268,7 +268,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_API_SECRET_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
+                sprintf(__('Поле %s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -279,7 +279,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function validate_ENDPOINTS_KEY_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
-                sprintf(__('Поле %1$s є обов’язковим для заповнення', "tp_gateway"), $key)
+                sprintf(__('Поле %s є обов’язковим для заповнення', "tp_gateway"), $key)
             );
             $value = '';
         }
@@ -525,7 +525,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     $order->update_status($this->successStatus);
                 }
                 $order->add_order_note(
-                    sprintf(__('Заказ успішно оплачений через %1$s', "tp_gateway"), TPG_TITLE)
+                    sprintf(__('Заказ успішно оплачений через %s ', "tp_gateway"), TPG_TITLE)
                 );
                 $order->add_order_note(
                     __("ID платежу (payment id): ") .
@@ -568,7 +568,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     $data_response[ApiService::P_RES_TRSACT_ID]
                 );
                 $order->add_order_note(
-                    sprintf(__('Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на "Обробка" для зарахування коштів', "tp_gateway"), TPG_TITLE)
+                    sprintf(__('Сума платежу зарезервована через %s, необхідно змінити статус замовлення на "Обробка" для зарахування коштів', "tp_gateway"), TPG_TITLE)
                 );
                 $order->save();
                 update_post_meta(
@@ -594,7 +594,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                 $order->add_order_note(
                     sprintf(__(
-                        'Сума платежу успішно повернута через %1$s',
+                        'Сума платежу успішно повернута через %s ',
                         "tp_gateway"
                     ), TPG_TITLE)
                 );
@@ -615,7 +615,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 self::writeLog("!!!!!!!!! capture", "", "check_response");
                 $order->add_order_note(
                     sprintf(__(
-                        'Зарезервована сума платежу зарахована через %1$s',
+                        'Зарезервована сума платежу зарахована через %s ',
                         "tp_gateway"
                     ), TPG_TITLE)
                 );
@@ -634,7 +634,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 ApiService::P_TRZ_ST_SUCCESS
             ) {
                 $order->add_order_note(
-                    sprintf(__('Замовлення успішно повернуто через %1$s', "tp_gateway"), TPG_TITLE)
+                    sprintf(__('Замовлення успішно повернуто через %s ', "tp_gateway"), TPG_TITLE)
                 );
                 $order->add_order_note(
                     __("ID платежу (payment id): ") .

@@ -16,8 +16,8 @@ msgstr ""
 msgid "Увімкнути"
 msgstr "Activer"
 
-msgid "%1$s Gateway"
-msgstr "%1$s Passerelle"
+msgid "%s Gateway"
+msgstr "%s Passerelle"
 
 msgid "Тестовий режим"
 msgstr "Mode test"
@@ -31,20 +31,20 @@ msgstr "Détention de fonds"
 msgid "Статус успішного платежу"
 msgstr "Statut de paiement réussi"
 
-msgid "Приймайте платежі через %1$s Gateway"
-msgstr "Accepter les paiements via la passerelle %1$s"
+msgid "Приймайте платежі через %s Gateway "
+msgstr "Accepter les paiements via la passerelle %s "
 
 msgid "Платіжний шлюз вимкнено."
 msgstr "La passerelle de paiement est désactivée."
 
-msgid "%1$s не підтримує валюту Вашого магазину!"
-msgstr "%1$s ne prend pas en charge la devise de votre boutique !"
+msgid "%s не підтримує валюту Вашого магазину!"
+msgstr "%s ne prend pas en charge la devise de votre boutique !"
 
 msgid "Увімкнено / Вимкнено"
 msgstr "Activé/Désactivé"
 
-msgid "Увімкнути %1$s Gateway"
-msgstr "Activer la passerelle %1$s"
+msgid "Увімкнути %s Gateway "
+msgstr "Activer la passerelle %s "
 
 msgid "Заголовок"
 msgstr "Titre"
@@ -58,23 +58,23 @@ msgstr "Descriptif"
 msgid "Опис, який відображається в процесі вибору форми оплати"
 msgstr "La description qui s'affiche lors du processus de choix d'un mode de paiement"
 
-msgid "Сплатити через платіжну систему %1$s"
-msgstr "Payer via le système de paiement %1$s"
+msgid "Сплатити через платіжну систему %s "
+msgstr "Payer via le système de paiement %s "
 
-msgid "Заказ успішно оплачений через %1$s"
-msgstr "Commande payée avec succès en %1$s"
+msgid "Заказ успішно оплачений через %s "
+msgstr "Commande payée avec succès en %s "
 
-msgid "POS_ID %1$s"
-msgstr "POS_ID %1$s"
+msgid "POS_ID %s "
+msgstr "POS_ID %s "
 
-msgid "API_KEY %1$s"
-msgstr "API_KEY %1$s"
+msgid "API_KEY %s "
+msgstr "API_KEY %s "
 
-msgid "API_SECRET %1$s"
-msgstr "API_SECRET %1$s"
+msgid "API_SECRET %s "
+msgstr "API_SECRET %s "
 
-msgid "ENDPOINTS_KEY %1$s"
-msgstr "ENDPOINTS_KEY %1$s"
+msgid "ENDPOINTS_KEY %s "
+msgstr "ENDPOINTS_KEY %s "
 
 msgid "Заказ в очікуванні оплати"
 msgstr "Commande en attente de paiement"
@@ -97,17 +97,17 @@ msgstr "ID de paiement (identifiant de paiement): "
 msgid "ID транзакції (transaction id): "
 msgstr "ID de transaction (identifiant de transaction): "
 
-msgid "Замовлення успішно повернуто через %1$s"
-msgstr "Commande retournée avec succès dans %1$s"
+msgid "Замовлення успішно повернуто через %s "
+msgstr "Commande retournée avec succès dans %s "
 
-msgid "Зарезервована сума платежу зарахована через %1$s"
-msgstr "Montant du paiement réservé crédité après %1$s"
+msgid "Зарезервована сума платежу зарахована через %s "
+msgstr "Montant du paiement réservé crédité après %s "
 
-msgid "Сума платежу успішно повернута через %1$s"
-msgstr "Montant du paiement renvoyé avec succès en %1$s"
+msgid "Сума платежу успішно повернута через %s "
+msgstr "Montant du paiement renvoyé avec succès en %s "
 
-msgid "Сума платежу зарезервована через %1$s, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
-msgstr "Le montant du paiement est réservé en %1$s, il faut changer le statut de la commande en 'Traitement' pour créditer les fonds: "
+msgid "Сума платежу зарезервована через %s, необхідно змінити статус замовлення на 'Обробка' для зарахування коштів: "
+msgstr "Le montant du paiement est réservé en %s, il faut changer le statut de la commande en 'Traitement' pour créditer les fonds: "
 
 msgid "Поля обов’язкові для заповнення"
 msgstr "Les champs sont obligatoires"
@@ -115,8 +115,8 @@ msgstr "Les champs sont obligatoires"
 msgid "Полe обов’язкове для заповнення"
 msgstr "Le champ est obligatoire"
 
-msgid "Поле %1$s є обов’язковим для заповнення"
-msgstr "Le champ %1$s est obligatoire"
+msgid "Поле %s є обов’язковим для заповнення"
+msgstr "Le champ %s est obligatoire"
 
 msgid "Платіжний шлюз для сайтів WordPress."
 msgstr "Passerelle de paiement pour les sites WordPress."
