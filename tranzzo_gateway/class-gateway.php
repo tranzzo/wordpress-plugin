@@ -605,6 +605,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     json_encode($data_response)
                 );
 
+                $order->update_status("refunded", TPG_TITLE);
+
                 return;
                 exit();
             } elseif (
@@ -647,6 +649,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     "tp_response",
                     json_encode($data_response)
                 );
+                $order->update_status("refunded", TPG_TITLE);
 
                 return;
             }elseif (
