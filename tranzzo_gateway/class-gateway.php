@@ -364,7 +364,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             );
             $apiService->setResultUrl($this->get_return_url($order));
             $apiService->setOrderId($order_id);
-            $apiService->setAmount($this->testMode ? 1 : $data_order["total"]);
+            $apiService->setAmount($this->testMode ? 2 : $data_order["total"]);
             $apiService->setCurrency($this->testMode ? "XTS" : $data_order["currency"]);
             $apiService->setDescription("Order #{$order_id}");
 
@@ -500,7 +500,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $data_response[ApiService::P_RES_AMOUNT]
             );
 
-            $woocommerceOrderTotal = $this->testMode ? 1 : $order->get_total();
+            $woocommerceOrderTotal = $this->testMode ? 2 : $order->get_total();
             $amount_order = ApiService::amountToDouble($woocommerceOrderTotal);
 
             if (
@@ -605,8 +605,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     json_encode($data_response)
                 );
 
-                $order->update_status("refunded", TPG_TITLE);
-
                 return;
                 exit();
             } elseif (
@@ -615,12 +613,14 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 ApiService::P_TRZ_ST_SUCCESS
             ) {
                 self::writeLog("!!!!!!!!! capture", "", "check_response");
+
                 $order->add_order_note(
                     sprintf(__(
                         'Зарезервована сума платежу зарахована через %s ',
                         "tp_gateway"
                     ), TPG_TITLE)
                 );
+                $order->update_status("completed", TPG_TITLE);
                 $order->save();
                 update_post_meta(
                     $order_id,
@@ -649,7 +649,20 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     "tp_response",
                     json_encode($data_response)
                 );
-                $order->update_status("refunded", TPG_TITLE);
+
+                $refundAmount = $data_response['amount'];
+
+                if($this->testMode){
+                    $refundAmount = $data_response['amount'] == 1 ?  ($order->get_total() / 2) : $order->get_total();
+                }
+
+                $refund = wc_create_refund( array(
+                    'amount'         => $refundAmount,
+                    'reason'         => '',
+                    'order_id'       => $order_id,
+                    'line_items'     => array(),
+                    'refund_payment' => false
+                ));
 
                 return;
             }elseif (
@@ -725,10 +738,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             $order_currency = $order->get_currency();
         }
 
-        if($this->testMode){
-            $order_currency = "XTS";
-        }
-
         require_once __DIR__ . "/ApiService.php";
         $tp_response = get_post_custom_values(
             "tp_response",
@@ -737,7 +746,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $tp_response = json_decode($tp_response[0], true);
 
         $order_total = get_post_meta($order_id, "_order_total", true);
-        if ($amount < $order_total) {
+
+        if ($amount > $order_total) {
 
             return new WP_Error(
                 "tp_refund_error",
@@ -752,6 +762,11 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             );
         }
 
+        if($this->testMode){
+            $order_currency = "XTS";
+            $amount = (int)$amount < (int)$order_total ? 1 : 2;
+        }
+
         $apiService = new ApiService(
             $this->POS_ID,
             $this->API_KEY,
@@ -762,11 +777,9 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             "order_currency" => $order_currency,
             "refund_date" => date("Y-m-d H:i:s"),
             "order_id" => strval($tp_response["order_id"]),
-            "order_amount" => strval($tp_response["amount"]),
-            "provider_order_id" => strval(
-                $tp_response["provider_order_id"]
-            ),
+            "order_amount" => strval($amount),
             "server_url" => add_query_arg("wc-api", __CLASS__, home_url("/")),
+            'comment' => $reason
         ];
 
         self::writeLog(["data" => $data]);
@@ -777,14 +790,18 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 break;
             case ApiService::P_METHOD_CAPTURE:
             case ApiService::P_METHOD_PURCHASE:
+            case ApiService::U_METHOD_REFUND:
                 $response = $apiService->createRefund($data);
                 break;
         }
 
         self::writeLog(["response" => $response]);
-        self::writeLog("status", $response["status"]);
 
-        if ($response["status"] != "success") {
+        if(isset($response["status"])) {
+            self::writeLog("status", $response["status"]);
+        }
+
+        if (!isset($response["status"]) || $response["status"] != "success") {
             return new WP_Error(
                 "tp_refund_error",
                 __($response["message"], "tp_gateway")
@@ -792,7 +809,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         } else {
             self::writeLog("success", "");
             $refund_message = sprintf(
-                __('Повернено %1$s - Причина: %3$s', "tp_gateway"),
+                __('Повернено %1$s - Причина: %2$s', "tp_gateway"),
                 $amount,
                 $reason
             );
@@ -853,9 +870,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "refund_date" => date("Y-m-d H:i:s"),
                 "order_id" => strval($tp_response["order_id"]),
                 "order_amount" => strval($tp_response["amount"]),
-                "provider_order_id" => strval(
-                    $tp_response["provider_order_id"]
-                ),
                 "server_url" => add_query_arg(
                     "wc-api",
                     __CLASS__,
