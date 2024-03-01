@@ -777,7 +777,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             "order_currency" => $order_currency,
             "refund_date" => date("Y-m-d H:i:s"),
             "order_id" => strval($tp_response["order_id"]),
-            "order_amount" => strval($amount),
+            "refund_amount" => strval($amount),
             "server_url" => add_query_arg("wc-api", __CLASS__, home_url("/")),
             'comment' => $reason
         ];
