@@ -23,6 +23,8 @@
     резервування (холдування) коштів клієнта на банківському рахунку для подальшого проведення платежу.
     - **Статус успішного платежу** - Після успішної оплати встановіть поточний статус замовлення WooCommerce
 
+ [![Текст описания](https://docs.tranzzo.com/img/logo.svg)](https://docs.tranzzo.com/uk/docs/getting-started/integration-checklist/)
+ 
 ## Payment module for TRANZZO service for CMS WordPress + WooCommerce
 
 ### Installation
@@ -45,3 +47,5 @@
     - **Description** - Description displayed during the payment method selection process.
     - **Payment with preauthorization** - Enable/disable the two-step payment method. This is a payment process that involves temporarily reserving (holding) the customer's funds in a bank account for further payment processing.
     - **Successful payment status** - After successful payment, set the current status of the WooCommerce order.
+
+ [![Текст описания](https://docs.tranzzo.com/img/logo.svg)](https://docs.tranzzo.com/docs/getting-started/integration-checklist/)
