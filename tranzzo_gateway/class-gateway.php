@@ -493,6 +493,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         self::writeLog($TPOrderId, '$TPOrderId');
 
         if ($apiService->validateSignature($data, $signature) && $order_id) {
+            $transaction = new TP_Gateway_Transaction();
+
             $order = wc_get_order($order_id);
             self::writeLog("sign valid", "check_response");
 
@@ -547,6 +549,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     $TPOrderId
                 );
 
+                $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
+
                 self::writeLog("Pay", "end", "check_response");
                 exit();
             } elseif (
@@ -582,6 +586,14 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     $TPOrderId
                 );
 
+                update_post_meta(
+                    $order_id,
+                    "tp_hold_total",
+                    floatval($data_response['amount'])
+                );
+
+                $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
+
                 return;
                 exit();
             } elseif (
@@ -605,6 +617,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     json_encode($data_response)
                 );
 
+                $this->recalculateHoldTotal($order_id, $data_response['amount']);
+
+                $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
+
                 return;
                 exit();
             } elseif (
@@ -620,6 +636,25 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                         "tp_gateway"
                     ), TPG_TITLE)
                 );
+                if($data_response['amount'] > 0 && $data_response['amount'] < $order->get_total()){
+                    $order->update_status('partial-payment', __('Часткову оплату отримано', 'tp_gateway'));
+                    $order->save();
+                    $this->recalculatePartialTotal($order_id, floatval($data_response['amount']));
+                    $this->recalculateHoldTotal($order_id, floatval($data_response['amount']));
+
+                    $transaction = new TP_Gateway_Transaction();
+                    $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
+
+                    update_post_meta(
+                        $order_id,
+                        "tp_response",
+                        json_encode($data_response)
+                    );
+
+                    return;
+                    exit();
+                }
+
                 $order->update_status("completed", TPG_TITLE);
                 $order->save();
                 update_post_meta(
@@ -627,6 +662,9 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     "tp_response",
                     json_encode($data_response)
                 );
+                delete_post_meta ($order_id, 'tp_hold_total');
+                delete_post_meta ($order_id, 'tp_partial_total');
+                $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
 
                 return;
                 exit();
@@ -663,6 +701,16 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     'line_items'     => array(),
                     'refund_payment' => false
                 ));
+
+                $this->recalculatePartialTotal($order_id, $refundAmount, false);
+                $partialTotal = get_post_meta($order_id, 'tp_partial_total', true);
+                if(!$partialTotal || floatval($partialTotal) < 0){
+                    $order->update_status("refunded", TPG_TITLE);
+                    $order->save();
+                }
+
+                $transaction = new TP_Gateway_Transaction();
+                $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
 
                 return;
             }elseif (
@@ -710,6 +758,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         self::writeLog('$order_id', $order_id);
         $order = wc_get_order($order_id);
         self::writeLog(['$order' => (array)$order]);
+        $holdTotal = '';
 
         if (!$order || !$order->get_transaction_id()) {
             return new WP_Error(
@@ -762,6 +811,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             );
         }
 
+        if($tp_response["method"] == ApiService::P_METHOD_AUTH){
+            $holdTotal = floatval(get_post_meta($order_id, "tp_hold_total", true));
+            if($amount != $holdTotal) {
+                return new WP_Error(
+                    "tp_refund_error",
+                    __(
+                        "Помилка при поверненні коштів: потрібно вказати загальну суму повернення -" .
+                        $holdTotal .
+                        " " .
+                        $order_currency .
+                        ".",
+                        "tp_gateway"
+                    )
+                );
+            }
+        }
+
         if($this->testMode){
             $order_currency = "XTS";
             $amount = (int)$amount < (int)$order_total ? 1 : 2;
@@ -801,6 +867,14 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         }
 
         if (!isset($response["status"]) || $response["status"] != "success") {
+
+            if(isset($response["status"]) && $response["status"] == 'failure'){
+                return new WP_Error(
+                    "tp_refund_error",
+                    __($response["status_description"], "tp_gateway")
+                );
+            }
+
             return new WP_Error(
                 "tp_refund_error",
                 __($response["message"], "tp_gateway")
@@ -817,6 +891,23 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             $order->add_order_note($refund_message);
             $order->save();
             self::writeLog(['$order222' => (array)$order]);
+
+            if($tp_response["method"] == ApiService::P_METHOD_AUTH ||
+                $tp_response["method"] == ApiService::P_METHOD_CAPTURE){
+
+                $this->recalculateHoldTotal($order_id, $amount);
+
+                $transaction = new TP_Gateway_Transaction();
+                $transaction->create_transaction($response["method"], $response['amount'], $order_id);
+
+                $holdTotal = get_post_meta($order_id, "tp_hold_total", true);
+                if($holdTotal && floatval($holdTotal) > 0){
+                    if($order->get_status() != "completed") {
+                        $order->update_status("completed", TPG_TITLE);
+                        $order->save();
+                    }
+                }
+            }
 
             return true;
         }
@@ -869,11 +960,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "refund_date" => date("Y-m-d H:i:s"),
                 "order_id" => strval($tp_response["order_id"]),
                 "order_amount" => strval($tp_response["amount"]),
-                "server_url" => add_query_arg(
-                    "wc-api",
-                    __CLASS__,
-                    home_url("/")
-                ),
             ];
             $response = $apiService->createCapture($data);
 
@@ -890,10 +976,114 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 self::writeLog("success", "");
                 self::writeLog(['$order222' => (array)$order]);
 
+                $order->add_order_note(
+                    sprintf(__(
+                        'Зарезервована сума платежу зарахована через %s ',
+                        "tp_gateway"
+                    ), TPG_TITLE)
+                );
+
+                $order->update_status("completed", TPG_TITLE);
+                $order->save();
+                update_post_meta(
+                    $order_id,
+                    "tp_response",
+                    json_encode($response)
+                );
+                delete_post_meta ($order_id, 'tp_hold_total');
+                delete_post_meta ($order_id, 'tp_partial_total');
+                $transaction = new TP_Gateway_Transaction();
+                $transaction->create_transaction($response["method"], $response['amount'], $order_id);
+
                 return true;
             }
         }
     }
+
+    /**
+     * @param $order_id
+     * @param $amount
+     */
+    public function recalculateHoldTotal($order_id, $amount)
+    {
+        $holdTotal = get_post_meta($order_id, 'tp_hold_total', true);
+
+        if (!empty($holdTotal)){
+            update_post_meta($order_id, 'tp_hold_total', $holdTotal - floatval($amount));
+        }
+    }
+
+    /**
+     * @param $order_id
+     * @param $amount
+     */
+    public function recalculatePartialTotal($order_id, $amount, $is_sum = true)
+    {
+        $partialTotal = get_post_meta($order_id, 'tp_partial_total', true);
+        $value = 0;
+
+        if (!empty($partialTotal)){
+            $value = $is_sum ? $partialTotal + floatval($amount) : $partialTotal - floatval($amount);
+            update_post_meta($order_id, 'tp_partial_total', $value);
+        }else{
+            if($is_sum) {
+                update_post_meta($order_id, 'tp_partial_total', floatval($amount));
+            }
+        }
+    }
+
+    /**
+     * @param $order_id
+     * @param $order_total
+     * @return bool
+     */
+    public function isFullCaptured($order_id, $order_total)
+    {
+        $transactions = new TP_Gateway_Transaction();
+
+        $captured = floatval($transactions->get_total_captured_amount($order_id));
+        if($captured == $order_total){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $order_id
+     * @param $order_total
+     * @return bool
+     */
+    public function isFullVoided($order_id, $order_total)
+    {
+        $transactions = new TP_Gateway_Transaction();
+
+        $voided = floatval($transactions->get_total_voided_amount($order_id));
+        if($voided == $order_total){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $order_id
+     * @param $order_total
+     * @return bool
+     */
+    public function isFullRefunded($order_id, $order_total)
+    {
+        $transactions = new TP_Gateway_Transaction();
+
+        $refunded = floatval($transactions->get_total_refunded_amount($order_id));
+        if($refunded == $order_total){
+            return true;
+        }
+
+        return false;
+    }
+
+
 
     /**
      * @param $data

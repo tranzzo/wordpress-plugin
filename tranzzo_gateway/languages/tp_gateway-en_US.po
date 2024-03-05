@@ -123,3 +123,18 @@ msgstr "Payment gateway for WordPress sites."
 
 msgid "Платіжний шлюз"
 msgstr "Payment Gateway"
+
+msgid "Часткову оплату отримано"
+msgstr "Partial Payment Received"
+
+msgid "Резервування:"
+msgstr "Hold:"
+
+msgid "Частково оплачено:"
+msgstr "Partially paid:"
+
+msgid "Часткова оплата"
+msgstr "Partial payment"
+
+msgid "Транзакції"
+msgstr "Transactions"
