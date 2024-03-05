@@ -166,7 +166,9 @@ function payment_gateway_orders_column_content($column, $post_id) {
                                     <span class="woocommerce-Price-amount amount" style="color: '.$colorArr[$transaction['type']].';">
                                         <span>'.$transaction['type'].': </span>
                                         <bdi>' .number_format( (float) $transaction['amount'], 2, ',', ''). '</bdi>
-                                    <span class="woocommerce-Price-currencySymbol">'.get_woocommerce_currency_symbol($order->get_currency()).'</span>
+                                        <span class="woocommerce-Price-currencySymbol">'.get_woocommerce_currency_symbol($order->get_currency()).'</span>
+                                        -
+                                        <span style="color: #000;font-size: 10px;">'.$transaction['date'].'</span>
                                     </span>
                                 </p>';
                 }
@@ -266,8 +268,18 @@ function register_partial_payment_status() {
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
         'show_in_admin_status_list' => true,
-        'label_count'               => _n_noop( 'Partial payment <span class="count">(%s)</span>', 'Partial payment <span class="count">(%s)</span>' )
+        'label_count'               => _n_noop('Partial payment <span class="count">(%s)</span>', 'Partial payment <span class="count">(%s)</span>')
     ) );
+/*
+    register_post_status( 'wc-partial-refunded', array(
+        'label'                     => __('Refunded','woocommerce'),
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop('Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>')
+    ) );
+*/
 }
 add_action('init', 'register_partial_payment_status');
 
@@ -275,6 +287,8 @@ add_action('init', 'register_partial_payment_status');
 add_filter( 'wc_order_statuses', 'custom_order_status');
 function custom_order_status( $order_statuses ) {
     $order_statuses['wc-partial-payment'] = __('Часткова оплата','tp_gateway');
+
+    //$order_statuses['wc-partial-refunded'] = __('Refunded','woocommerce');
 
     return $order_statuses;
 }

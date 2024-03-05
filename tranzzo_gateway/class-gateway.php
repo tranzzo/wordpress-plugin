@@ -13,14 +13,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     /**
      * @var string
      */
-    public $methodTitle;
-    /**
-     * @var string
-     */
-    public $methodDescription;
-    /**
-     * @var string
-     */
     public $title;
     /**
      * @var string
@@ -799,7 +791,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         if($tp_response["method"] == ApiService::P_METHOD_AUTH){
             $totalHold = $transaction->get_total_hold_amount($order_id);
-            if($amount > $totalHold) {
+            if($amount < $totalHold) {
                 return new WP_Error(
                     "tp_refund_error",
                     __(
@@ -889,12 +881,19 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $amount,
                 $reason
             );
+            $order->add_order_note($refund_message);
             self::writeLog('$refund_message', $refund_message);
 
-            $order->add_order_note($refund_message);
+            $transaction->create_transaction($response["method"], $response['amount'], $order_id);
+
+            $isCaptureTransaction = $tp_response["method"] == ApiService::P_METHOD_CAPTURE;
+
+            /*if($this->isFullRefunded($order_id, $order->get_total(), $isCaptureTransaction)){
+                $order->update_status("partial-refunded", TPG_TITLE);
+            }*/
+
             $order->save();
             self::writeLog(['$order222' => (array)$order]);
-            $transaction->create_transaction($response["method"], $response['amount'], $order_id);
 
             return true;
         }
@@ -1023,13 +1022,16 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     /**
      * @param $order_id
      * @param $order_total
+     * @param bool $isCapture
      * @return bool
      */
-    public function isFullRefunded($order_id, $order_total)
+    public function isFullRefunded($order_id, $order_total, $isCapture = false)
     {
         $transactions = new TP_Gateway_Transaction();
-
         $refunded = floatval($transactions->get_total_refunded_amount($order_id));
+        $captured = floatval($transactions->get_total_captured_amount($order_id));
+        $order_total = $isCapture ? $captured : $order_total;
+
         if($refunded >= $order_total){
             return true;
         }
