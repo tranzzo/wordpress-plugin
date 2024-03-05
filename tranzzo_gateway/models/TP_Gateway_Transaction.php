@@ -91,9 +91,10 @@ class TP_Gateway_Transaction {
         );
     }
 
+
     /**
      * @param $order_id
-     * @return int
+     * @return float|int
      */
     public function get_total_captured_amount($order_id) {
         global $wpdb;
@@ -101,12 +102,12 @@ class TP_Gateway_Transaction {
             $wpdb->prepare("SELECT SUM(amount) FROM $this->table_name WHERE order_id = %d AND type = 'capture'", $order_id)
         );
 
-        return $result ? $result : 0;
+        return $result ? floatval($result) : 0;
     }
 
     /**
      * @param $order_id
-     * @return int
+     * @return float|int
      */
     public function get_total_refunded_amount($order_id) {
         global $wpdb;
@@ -114,12 +115,12 @@ class TP_Gateway_Transaction {
             $wpdb->prepare("SELECT SUM(amount) FROM $this->table_name WHERE order_id = %d AND type = 'refund'", $order_id)
         );
 
-        return $result ? $result : 0;
+        return $result ? floatval($result) : 0;
     }
 
     /**
      * @param $order_id
-     * @return int
+     * @return float|int
      */
     public function get_total_voided_amount($order_id) {
         global $wpdb;
@@ -127,12 +128,12 @@ class TP_Gateway_Transaction {
             $wpdb->prepare("SELECT SUM(amount) FROM $this->table_name WHERE order_id = %d AND type = 'void'", $order_id)
         );
 
-        return $result ? $result : 0;
+        return $result ? floatval($result) : 0;
     }
 
     /**
      * @param $order_id
-     * @return int
+     * @return float|int
      */
     public function get_total_purchased_amount($order_id) {
         global $wpdb;
@@ -140,6 +141,19 @@ class TP_Gateway_Transaction {
             $wpdb->prepare("SELECT SUM(amount) FROM $this->table_name WHERE order_id = %d AND type = 'purchase'", $order_id)
         );
 
-        return $result ? $result : 0;
+        return $result ? floatval($result) : 0;
+    }
+
+    /**
+     * @param $order_id
+     * @return float|int
+     */
+    public function get_total_hold_amount($order_id) {
+        global $wpdb;
+        $result = $wpdb->get_var(
+            $wpdb->prepare("SELECT SUM(amount) FROM $this->table_name WHERE order_id = %d AND type = 'auth'", $order_id)
+        );
+
+        return $result ? floatval($result) : 0;
     }
 }
