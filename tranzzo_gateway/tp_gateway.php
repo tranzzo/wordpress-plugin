@@ -5,7 +5,7 @@ Description: Платіжний шлюз для сайтів WordPress.
 Version: 2.0.1
 Last Update: 30.01.2024
 Author: TRANZZO
-Author URI: https://tranzzo.com
+Author URI: https://docs.tranzzo.com/uk/
 Text Domain: tp_gateway
 Domain Path: /languages/
 */
@@ -270,16 +270,6 @@ function register_partial_payment_status() {
         'show_in_admin_status_list' => true,
         'label_count'               => _n_noop('Partial payment <span class="count">(%s)</span>', 'Partial payment <span class="count">(%s)</span>')
     ) );
-/*
-    register_post_status( 'wc-partial-refunded', array(
-        'label'                     => __('Refunded','woocommerce'),
-        'public'                    => true,
-        'exclude_from_search'       => false,
-        'show_in_admin_all_list'    => true,
-        'show_in_admin_status_list' => true,
-        'label_count'               => _n_noop('Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>')
-    ) );
-*/
 }
 add_action('init', 'register_partial_payment_status');
 
@@ -288,9 +278,42 @@ add_filter( 'wc_order_statuses', 'custom_order_status');
 function custom_order_status( $order_statuses ) {
     $order_statuses['wc-partial-payment'] = __('Часткова оплата','tp_gateway');
 
-    //$order_statuses['wc-partial-refunded'] = __('Refunded','woocommerce');
-
     return $order_statuses;
+}
+
+add_action( 'woocommerce_admin_order_data_after_payment_info', 'tp_gateway_woocommerce_admin_order_data_after_payment_info_action' );
+
+/**
+ * Function for `woocommerce_admin_order_data_after_payment_info` action-hook.
+ *
+ * @param $order $order WC_Order The order object being displayed.
+ *
+ * @return void
+ */
+function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($order){
+    require_once __DIR__ . "/ApiService.php";
+
+    $order_id = $order->get_id();
+
+    $tp_response = get_post_custom_values(
+        "tp_response",
+        $order_id
+    );
+    $tp_response = json_decode($tp_response[0], true);
+
+    $isRefundTransaction = $tp_response["method"] == ApiService::U_METHOD_REFUND;
+
+    if($order->get_status() != "refunded" && $isRefundTransaction) {
+        $transactions = new TP_Gateway_Transaction();
+        $refunded = floatval($transactions->get_total_refunded_amount($order_id));
+        $captured = floatval($transactions->get_total_captured_amount($order_id));
+
+        if ($refunded >= $captured) {
+            echo '<div class="notice notice-info">
+                <p>'.__("Необхідно змінити статус замовлення на 'Повернено'", "tp_gateway").'</p>
+              </div>';
+        }
+    }
 }
 
 function activate_tp_gateway_plugin() {

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-05 21:04+0200\n"
+"PO-Revision-Date: 2024-03-06 12:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -132,3 +132,12 @@ msgstr "Teilzahlung"
 
 msgid "Транзакції"
 msgstr "Transaktionen"
+
+msgid "https://docs.tranzzo.com/uk/"
+msgstr "https://docs.tranzzo.com/"
+
+msgid "Документація"
+msgstr "Dokumentation"
+
+msgid "Необхідно змінити статус замовлення на 'Повернено'"
+msgstr "Sie müssen den Bestellstatus auf 'Erstattet' ändern."

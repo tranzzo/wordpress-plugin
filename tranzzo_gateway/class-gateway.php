@@ -133,6 +133,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     {
         if ($this->supportCurrencyAPI()) { ?>
             <h3><?=TPG_TITLE;?></h3>
+            <a href="<?=__("https://docs.tranzzo.com/uk/","tp_gateway");?>"><?=__("Документація","tp_gateway");?></a>
             <table class="form-table update-form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
@@ -886,7 +887,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
             $transaction->create_transaction($response["method"], $response['amount'], $order_id);
 
-            $isCaptureTransaction = $tp_response["method"] == ApiService::P_METHOD_CAPTURE;
+            //$isCaptureTransaction = $tp_response["method"] == ApiService::P_METHOD_CAPTURE;
 
             /*if($this->isFullRefunded($order_id, $order->get_total(), $isCaptureTransaction)){
                 $order->update_status("partial-refunded", TPG_TITLE);
