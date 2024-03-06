@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-01 02:38+0200\n"
+"PO-Revision-Date: 2024-03-06 12:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -123,3 +123,21 @@ msgstr "Zahlungsgateway für WordPress-Sites."
 
 msgid "Платіжний шлюз"
 msgstr "Zahlungsgateway"
+
+msgid "Часткову оплату отримано"
+msgstr "Teilzahlung erhalten"
+
+msgid "Часткова оплата"
+msgstr "Teilzahlung"
+
+msgid "Транзакції"
+msgstr "Transaktionen"
+
+msgid "https://docs.tranzzo.com/uk/"
+msgstr "https://docs.tranzzo.com/"
+
+msgid "Документація"
+msgstr "Dokumentation"
+
+msgid "Необхідно змінити статус замовлення на 'Повернено'"
+msgstr "Sie müssen den Bestellstatus auf 'Erstattet' ändern."

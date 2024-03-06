@@ -253,7 +253,6 @@ class ApiService
         $this->setHeader('Content-Type: application/json');
 
         self::writeLog(array('posId' => $params[self::P_REQ_POS_ID]));
-        self::writeLog(array('ord' => $this->provider_order_id));
 
         self::writeLog(array('$params' => $params));
         return $this->request(self::R_METHOD_POST, self::U_METHOD_VOID, $params);
@@ -265,8 +264,6 @@ class ApiService
         $params[self::P_REQ_POS_ID] = $this->posId;
         $this->setHeader('Accept: application/json');
         $this->setHeader('Content-Type: application/json');
-
-        self::writeLog(array('ord' => $this->provider_order_id));
 
         self::writeLog(array('$params' => $params));
         self::writeLog(array('this ser' => (array)$this));

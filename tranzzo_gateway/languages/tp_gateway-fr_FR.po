@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-01 02:37+0200\n"
+"PO-Revision-Date: 2024-03-06 12:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -123,3 +123,21 @@ msgstr "Passerelle de paiement pour les sites WordPress."
 
 msgid "Платіжний шлюз"
 msgstr "Passerelle de paiement"
+
+msgid "Часткову оплату отримано"
+msgstr "Paiement partiel reçu"
+
+msgid "Часткова оплата"
+msgstr "Paiement partiel"
+
+msgid "Транзакції"
+msgstr "Transactions"
+
+msgid "https://docs.tranzzo.com/uk/"
+msgstr "https://docs.tranzzo.com/"
+
+msgid "Документація"
+msgstr "Documentation"
+
+msgid "Необхідно змінити статус замовлення на 'Повернено'"
+msgstr "Vous devez changer le statut de la commande en 'Remboursé'"
