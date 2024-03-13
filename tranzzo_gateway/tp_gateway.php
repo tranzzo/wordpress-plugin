@@ -181,6 +181,29 @@ function payment_gateway_orders_column_content($column, $post_id) {
     if($column  == 'order_total_custom'){
         echo $order->get_total().' '.get_woocommerce_currency_symbol($order->get_currency());
     }
+
+    if($column == 'order_number'){
+        $tp_response = get_post_custom_values(
+            "tp_response",
+            $order_id
+        );
+        if($tp_response) {
+            $tp_response = json_decode($tp_response[0], true);
+            $currency = isset($tp_response['currency']) ? isset($tp_response['currency']) : null;
+            if($currency == 'XTS'){
+                $style = "display: block;
+                            width: fit-content;
+                            padding: 2px 10px;
+                            line-height: 1;
+                            border: 1px solid #5db92d;
+                            background: #5db92d;
+                            border-radius: 6px;
+                            color: #fff;";
+
+                echo '<strong style="'.$style.'">Test</strong>';
+            }
+        }
+    }
 }
 
 add_action( 'woocommerce_order_details_after_order_table', 'custom_display_order_extra_info', 10, 1 );
@@ -314,6 +337,20 @@ function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($orde
                 <p>' . __("Необхідно змінити статус замовлення на 'Повернено'", "tp_gateway") . '</p>
               </div>';
             }
+        }
+
+        $currency = isset($tp_response['currency']) ? isset($tp_response['currency']) : null;
+        if($currency == 'XTS'){
+            $style = "display: block;
+                            width: fit-content;
+                            padding: 2px 10px;
+                            line-height: 1;
+                            border: 1px solid #5db92d;
+                            background: #5db92d;
+                            border-radius: 6px;
+                            color: #fff;";
+
+            echo '<strong style="'.$style.'">Test</strong>';
         }
     }
 }

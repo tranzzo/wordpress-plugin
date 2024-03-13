@@ -134,6 +134,11 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         if ($this->supportCurrencyAPI()) { ?>
             <h3><?=TPG_TITLE;?></h3>
             <a href="<?=__("https://docs.tranzzo.com/uk/","tp_gateway");?>"><?=__("Документація","tp_gateway");?></a>
+            <p><a
+                   class="button-primary"
+                   href="mailto:support@tranzzo.com"><?=__("Звʼязатися з підтримкою","tp_gateway");?>
+                </a>
+            </p>
             <table class="form-table update-form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
@@ -167,12 +172,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "label" => sprintf(__('Увімкнути %s Gateway ', "tp_gateway"), TPG_TITLE),
                 "default" => "yes",
             ],
-            "test_mode" => [
-                "title" => __("Тестовий режим", "tp_gateway"),
-                "type" => "checkbox",
-                "label" => __("Увімкнути тестовий режим", "tp_gateway"),
-                "default" => "yes",
-            ],
             "title" => [
                 "title" => __("Заголовок", "tp_gateway"),
                 "type" => "text",
@@ -182,6 +181,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 ),
                 "default" => TPG_TITLE,
                 "desc_tip" => true,
+                'custom_attributes' => array('readonly' => 'readonly')
             ],
             "description" => [
                 "title" => __("Опис", "tp_gateway"),
@@ -194,23 +194,6 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     'Сплатити через платіжну систему %s ',
                     "tp_gateway"
                 ), TPG_TITLE),
-            ],
-            "typePayment" => [
-                "title" => __("Холдування коштів", "tp_gateway"),
-                "type" => "checkbox",
-                "label" => __("Увімкнути", "tp_gateway"),
-                "default" => "no",
-            ],
-            "custom_success_status" => [
-                "title" => __("Статус успішного платежу", "tp_gateway"),
-                "type" => "select",
-                "description" => __(
-                    "Upon successful payment, set the current status of the WooCommerce order",
-                    "tp_gateway"
-                ),
-                'options' => wc_get_order_statuses(),
-                "default" => "wc-processing",
-                "desc_tip" => true,
             ],
             "POS_ID" => [
                 "title" => "POS_ID".'<span style="color: #d63638;">*</span>',
@@ -232,6 +215,29 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "title" => "ENDPOINTS_KEY".'<span style="color: #d63638;">*</span>',
                 "type" => "password",
                 "description" => sprintf(__('ENDPOINTS_KEY %s ', "tp_gateway"), TPG_TITLE),
+            ],
+            "test_mode" => [
+                "title" => __("Тестовий режим", "tp_gateway"),
+                "type" => "checkbox",
+                "label" => __("Увімкнути тестовий режим", "tp_gateway"),
+                "default" => "yes",
+            ],
+            "typePayment" => [
+                "title" => __("Холдування коштів", "tp_gateway"),
+                "type" => "checkbox",
+                "label" => __("Увімкнути", "tp_gateway"),
+                "default" => "no",
+            ],
+            "custom_success_status" => [
+                "title" => __("Статус успішного платежу", "tp_gateway"),
+                "type" => "select",
+                "description" => __(
+                    "Upon successful payment, set the current status of the WooCommerce order",
+                    "tp_gateway"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-processing",
+                "desc_tip" => true,
             ],
         ];
     }
