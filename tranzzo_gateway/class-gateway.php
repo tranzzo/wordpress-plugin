@@ -482,7 +482,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         } else {
             $TPOrderId = (int)$data_response[ApiService::P_RES_ORDER];
             $order_id = $wpdb->get_var(
-                "SELECT post_id as count FROM {$wpdb->postmeta} WHERE meta_key = 'TPOrderId' AND meta_value = $TPOrderId"
+                "SELECT post_id as count FROM {$wpdb->postmeta} WHERE meta_key = '_TPOrderId' AND meta_value = $TPOrderId"
             );
 
             self::writeLog(2, 'get_$order_id', "check_response");
@@ -512,7 +512,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                 update_post_meta(
                     $order_id,
-                    "tp_order_is_payment",
+                    "_tp_order_is_payment",
                     1
                 );
 
@@ -539,12 +539,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tp_response",
+                    "_tp_response",
                     json_encode($data_response)
                 );
                 update_post_meta(
                     $order_id,
-                    "TPOrderId",
+                    "_TPOrderId",
                     $TPOrderId
                 );
 
@@ -576,12 +576,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tp_response",
+                    "_tp_response",
                     json_encode($data_response)
                 );
                 update_post_meta(
                     $order_id,
-                    "TPOrderId",
+                    "_TPOrderId",
                     $TPOrderId
                 );
 
@@ -606,7 +606,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tp_response",
+                    "_tp_response",
                     json_encode($data_response)
                 );
 
@@ -635,7 +635,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                     update_post_meta(
                         $order_id,
-                        "tp_response",
+                        "_tp_response",
                         json_encode($data_response)
                     );
 
@@ -647,7 +647,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tp_response",
+                    "_tp_response",
                     json_encode($data_response)
                 );
 
@@ -671,7 +671,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tp_response",
+                    "_tp_response",
                     json_encode($data_response)
                 );
 
@@ -774,7 +774,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         require_once __DIR__ . "/ApiService.php";
         $tp_response = get_post_custom_values(
-            "tp_response",
+            "_tp_response",
             $order_id
         );
         $tp_response = json_decode($tp_response[0], true);
@@ -912,7 +912,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function capturePayment($order_id)
     {
-        if(get_post_meta($order_id, 'tp_order_is_payment', true ) == 1){
+        if(get_post_meta($order_id, '_tp_order_is_payment', true ) == 1){
             return true;
         }
 
@@ -921,7 +921,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $order = wc_get_order($order_id);
         require_once __DIR__ . "/ApiService.php";
         $tp_response = get_post_custom_values(
-            "tp_response",
+            "_tp_response",
             $order_id
         );
         $tp_response = json_decode($tp_response[0], true);
@@ -980,7 +980,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->save();
                 update_post_meta(
                     $order_id,
-                    "tp_response",
+                    "_tp_response",
                     json_encode($response)
                 );
 

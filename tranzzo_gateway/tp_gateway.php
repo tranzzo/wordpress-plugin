@@ -184,7 +184,7 @@ function payment_gateway_orders_column_content($column, $post_id) {
 
     if($column == 'order_number'){
         $tp_response = get_post_custom_values(
-            "tp_response",
+            "_tp_response",
             $order_id
         );
         if($tp_response) {
@@ -319,7 +319,7 @@ function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($orde
     $order_id = $order->get_id();
 
     $tp_response = get_post_custom_values(
-        "tp_response",
+        "_tp_response",
         $order_id
     );
     if($tp_response) {
