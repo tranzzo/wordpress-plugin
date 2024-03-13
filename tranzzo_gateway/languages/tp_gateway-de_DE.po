@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-13 18:14+0200\n"
+"PO-Revision-Date: 2024-03-14 01:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -144,3 +144,27 @@ msgstr "Sie müssen den Bestellstatus auf 'Erstattet' ändern."
 
 msgid "Звʼязатися з підтримкою"
 msgstr "Kontaktieren Sie Support"
+
+msgid "Платіж знаходиться в обробці"
+msgstr "Die Zahlung wird bearbeitet"
+
+msgid "Помилка при списанні коштів"
+msgstr "Fehler beim Abbuchen von Geldern"
+
+msgid "Успішне списання коштів"
+msgstr "Erfolgreiche Geldabhebung"
+
+msgid "Успішне повернення всієї суми платежу"
+msgstr "Erfolgreiche Rückerstattung des gesamten Zahlungsbetrages"
+
+msgid "Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/'>Опис</a>"
+msgstr "Legen Sie den aktuellen Status Ihrer WooCommerce-Bestellung für die entsprechende Transaktion <a href='https://docs.tranzzo.com/docs/status-codes/codes-by-stages/'>Beschreibung</a> fest"
+
+msgid "За двостадійною оплатою використовується тимчасове резервування коштів на рахунку клієнта для подальшого проведення платежу"
+msgstr "Bei der zweistufigen Zahlung wird die vorübergehende Mittelreservierung auf dem Konto des Kunden für die weitere Zahlung genutzt"
+
+msgid "Одностадійна оплата"
+msgstr "Einstufige Zahlung"
+
+msgid "Двостадійна оплата"
+msgstr "Zweistufige Zahlung"
