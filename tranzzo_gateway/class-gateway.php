@@ -145,6 +145,9 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             <p style="font-size: 12px;">
                 <span style="color: #d63638;">*</span> <?php _e("Поля обов’язкові для заповнення","tp_gateway");?>
             <p>
+            <script>
+                const isTwoStepPayment = <?php echo $this->typePayment;?>
+            </script>
         <?php } else { ?>
             <div class="inline error">
             <p>
@@ -228,16 +231,59 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "label" => __("Увімкнути", "tp_gateway"),
                 "default" => "no",
             ],
-            "custom_success_status" => [
-                "title" => __("Статус успішного платежу", "tp_gateway"),
+            "select_payment_process" => [
+                "title" => __("Платіжний процес", "tp_gateway"),
                 "type" => "select",
                 "description" => __(
-                    "Upon successful payment, set the current status of the WooCommerce order",
+                    "За двостадійною оплатою використовується тимчасове резервування коштів на рахунку клієнта для подальшого проведення платежу",
+                    "tp_gateway"
+                ),
+                'options' => array(
+                        'one' => __('Одностадійна оплата', "tp_gateway"),
+                        'two' => __('Двостадійна оплата', "tp_gateway"),
+                ),
+                "default" => $this->typePayment ? "two" : "one",
+            ],
+            "custom_pending_status" => [
+                "title" => __("Платіж знаходиться в обробці", "tp_gateway"),
+                "type" => "select",
+                "description" => __(
+                    "Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/'>Опис</a>",
                     "tp_gateway"
                 ),
                 'options' => wc_get_order_statuses(),
-                "default" => "wc-processing",
-                "desc_tip" => true,
+                "default" => "wc-pending",
+            ],
+            "custom_failed_status" => [
+                "title" => __("Помилка при списанні коштів", "tp_gateway"),
+                "type" => "select",
+                "description" => __(
+                    "Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/'>Опис</a>",
+                    "tp_gateway"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-failed",
+            ],
+            "custom_success_status" => [
+                "title" => __("Успішне списання коштів", "tp_gateway"),
+                "type" => "select",
+                "description" => __(
+                    "Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/'>Опис</a>",
+                    "tp_gateway"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-completed",
+                //"desc_tip" => true,
+            ],
+            "custom_refunded_status" => [
+                "title" => __("Успішне повернення всієї суми платежу", "tp_gateway"),
+                "type" => "select",
+                "description" => __(
+                    "Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/'>Опис</a>",
+                    "tp_gateway"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-refunded",
             ],
         ];
     }

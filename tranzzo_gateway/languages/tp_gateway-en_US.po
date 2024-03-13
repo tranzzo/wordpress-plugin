@@ -144,3 +144,27 @@ msgstr "You need to change the order status to 'Refunded'"
 
 msgid "Звʼязатися з підтримкою"
 msgstr "Contact support"
+
+msgid "Платіж знаходиться в обробці"
+msgstr "The payment is being processed"
+
+msgid "Помилка при списанні коштів"
+msgstr "Error when debiting funds"
+
+msgid "Успішне списання коштів"
+msgstr "Successful withdrawal of funds"
+
+msgid "Успішне повернення всієї суми платежу"
+msgstr "Successful return of the entire payment amount"
+
+msgid "Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/'>Опис</a>"
+msgstr "Set the current status of your WooCommerce order for the corresponding transaction <a href='https://docs.tranzzo.com/docs/status-codes/codes-by-stages/'>Description</a>"
+
+msgid "За двостадійною оплатою використовується тимчасове резервування коштів на рахунку клієнта для подальшого проведення платежу"
+msgstr "With two-stage payment, temporary reservation of funds on the client's account is used for further payment"
+
+msgid "Одностадійна оплата"
+msgstr "One-stage payment"
+
+msgid "Двостадійна оплата"
+msgstr "Two-stage payment"
