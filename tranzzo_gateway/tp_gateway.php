@@ -299,19 +299,21 @@ function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($orde
         "tp_response",
         $order_id
     );
-    $tp_response = json_decode($tp_response[0], true);
+    if($tp_response) {
+        $tp_response = json_decode($tp_response[0], true);
 
-    $isRefundTransaction = $tp_response["method"] == ApiService::U_METHOD_REFUND;
+        $isRefundTransaction = $tp_response["method"] == ApiService::U_METHOD_REFUND;
 
-    if($order->get_status() != "refunded" && $isRefundTransaction) {
-        $transactions = new TP_Gateway_Transaction();
-        $refunded = floatval($transactions->get_total_refunded_amount($order_id));
-        $captured = floatval($transactions->get_total_captured_amount($order_id));
+        if ($order->get_status() != "refunded" && $isRefundTransaction) {
+            $transactions = new TP_Gateway_Transaction();
+            $refunded = floatval($transactions->get_total_refunded_amount($order_id));
+            $captured = floatval($transactions->get_total_captured_amount($order_id));
 
-        if ($refunded >= $captured) {
-            echo '<div class="notice notice-info">
-                <p>'.__("Необхідно змінити статус замовлення на 'Повернено'", "tp_gateway").'</p>
+            if ($refunded >= $captured) {
+                echo '<div class="notice notice-info">
+                <p>' . __("Необхідно змінити статус замовлення на 'Повернено'", "tp_gateway") . '</p>
               </div>';
+            }
         }
     }
 }
@@ -326,7 +328,7 @@ function create_table_in_db() {
 
     $prefix = $wpdb->prefix;
 
-    $sql = "CREATE TABLE {$prefix}tp_gateway_transactions (
+    $sql = "CREATE TABLE IF NOT EXISTS {$prefix}tp_gateway_transactions (
         id BIGINT(20) NOT NULL AUTO_INCREMENT,
         type ENUM('purchase','auth','capture','void','refund') NOT NULL,
         amount DECIMAL(26,8) DEFAULT NULL,
