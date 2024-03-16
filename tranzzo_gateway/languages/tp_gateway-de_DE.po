@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-16 13:02+0200\n"
+"PO-Revision-Date: 2024-03-16 14:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -168,3 +168,21 @@ msgstr "Einstufige Zahlung"
 
 msgid "Двостадійна оплата"
 msgstr "Zweistufige Zahlung"
+
+msgid "Резервування коштів знаходиться в обробці"
+msgstr "Die Mittelreservierung wird bearbeitet"
+
+msgid "Помилка при резервувані коштів"
+msgstr "Fehler beim Reservieren von Geldern"
+
+msgid "Успішне резервування коштів"
+msgstr "Erfolgreiche Reservierung der Mittel"
+
+msgid "Успішне зарахування частини коштів резерву"
+msgstr "Erfolgreiche Gutschrift eines Teils der Reservemittel"
+
+msgid "Успішне зарахування всієї суми резерву"
+msgstr "Erfolgreiche Gutschrift des gesamten Reservebetrages"
+
+msgid "Успішне скасування резерву"
+msgstr "Erfolgreiche Stornierung der Reserve"

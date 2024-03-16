@@ -132,6 +132,16 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public function admin_options()
     {
         if ($this->supportCurrencyAPI()) { ?>
+            <style>
+                table.update-form-table{
+                    width: 38%;
+                }
+                @media only screen and (min-width: 360px) and (max-width: 992px) {
+                    table.update-form-table{
+                        width: 100%;
+                    }
+                }
+            </style>
             <h3><?=TPG_TITLE;?></h3>
             <a href="<?=__("https://docs.tranzzo.com/uk/","tp_gateway");?>"><?=__("Документація","tp_gateway");?></a>
             <p><a
@@ -285,6 +295,83 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
                     get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-refund/overview/" :
                     "https://docs.tranzzo.com/uk/docs/transactions-refund/overview/"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-refunded",
+            ],
+            "custom_auth_pending_status" => [
+                "title" => __("Резервування коштів знаходиться в обробці", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/status-codes/payment-cycle/" :
+                        "https://docs.tranzzo.com/uk/docs/status-codes/payment-cycle/"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-pending",
+            ],
+            "custom_auth_failed_status" => [
+                "title" => __("Помилка при резервувані коштів", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/status-codes/codes-by-stages/" :
+                        "https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-failed",
+            ],
+            "custom_success_auth_status" => [
+                "title" => __("Успішне резервування коштів", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/auth/" :
+                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/auth/"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-on-hold",
+            ],
+            "custom_auth_part_success_status" => [
+                "title" => __("Успішне зарахування частини коштів резерву", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/capture/api/#capture-the-part-of-the-amount" :
+                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/capture/api/#%D0%B7%D0%B0%D1%80%D0%B0%D1%85%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D1%87%D0%B0%D1%81%D1%82%D0%B8%D0%BD%D0%B8-%D1%81%D1%83%D0%BC%D0%B8-%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2%D1%83"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-partial-payment",
+            ],
+            "custom_auth_success_status" => [
+                "title" => __("Успішне зарахування всієї суми резерву", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/capture/api/#capture-of-the-entire-amount" :
+                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/capture/api/#%D0%B7%D0%B0%D1%80%D0%B0%D1%85%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D0%B2%D1%81%D1%96%D1%94%D1%97-%D1%81%D1%83%D0%BC%D0%B8-%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2%D1%83"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-completed",
+            ],
+            "custom_auth_voided_status" => [
+                "title" => __("Успішне скасування резерву", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/void/" :
+                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/void/"
+                ),
+                'options' => wc_get_order_statuses(),
+                "default" => "wc-cancelled",
+            ],
+            "custom_auth_refunded_status" => [
+                "title" => __("Успішне повернення всієї суми платежу", "tp_gateway"),
+                "type" => "select",
+                "description" => sprintf(
+                    __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
+                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-refund/overview/" :
+                        "https://docs.tranzzo.com/uk/docs/transactions-refund/overview/"
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-refunded",
