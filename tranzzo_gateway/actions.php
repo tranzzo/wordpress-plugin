@@ -36,6 +36,16 @@ function custom_payment_gateway_admin_script() {
                         $("#mainform > table > tbody > tr:nth-child(14)")
                     ];
 
+                    let twoStepStatusesFields = [
+                        $("#mainform > table > tbody > tr:nth-child(15)"),
+                        $("#mainform > table > tbody > tr:nth-child(16)"),
+                        $("#mainform > table > tbody > tr:nth-child(17)"),
+                        $("#mainform > table > tbody > tr:nth-child(18)"),
+                        $("#mainform > table > tbody > tr:nth-child(19)"),
+                        $("#mainform > table > tbody > tr:nth-child(20)"),
+                        $("#mainform > table > tbody > tr:nth-child(21)"),
+                    ]
+
                     if(isTwoStepPayment == 1){
                         selectPaymentProcess.val('two');
                         oneStepStatusesFields.forEach(function(oneStepStatusesField){
@@ -43,11 +53,21 @@ function custom_payment_gateway_admin_script() {
                                 oneStepStatusesField.hide();
                             }
                         });
+                        twoStepStatusesFields.forEach(function(twoStepStatusesField){
+                            if(twoStepStatusesField.length) {
+                                twoStepStatusesField.show();
+                            }
+                        });
                     }else{
                         selectPaymentProcess.val('one');
                         oneStepStatusesFields.forEach(function(oneStepStatusesField){
                             if(oneStepStatusesField.length) {
                                 oneStepStatusesField.show();
+                            }
+                        });
+                        twoStepStatusesFields.forEach(function(twoStepStatusesField){
+                            if(twoStepStatusesField.length) {
+                                twoStepStatusesField.hide();
                             }
                         });
                     }
@@ -64,10 +84,20 @@ function custom_payment_gateway_admin_script() {
                                     oneStepStatusesField.show();
                                 }
                             });
+                            twoStepStatusesFields.forEach(function(twoStepStatusesField){
+                                if(twoStepStatusesField.length) {
+                                    twoStepStatusesField.hide();
+                                }
+                            });
                         }else{
                             oneStepStatusesFields.forEach(function(oneStepStatusesField){
                                 if(oneStepStatusesField.length) {
                                     oneStepStatusesField.hide();
+                                }
+                            });
+                            twoStepStatusesFields.forEach(function(twoStepStatusesField){
+                                if(twoStepStatusesField.length) {
+                                    twoStepStatusesField.show();
                                 }
                             });
                         }
