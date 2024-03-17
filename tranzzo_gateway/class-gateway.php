@@ -741,6 +741,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     __("ID транзакції (transaction id): ") .
                     $data_response[ApiService::P_RES_TRSACT_ID]
                 );
+                $order->add_order_note(__('Повернення коштів можна провести у мерчант-порталі', "tp_gateway"));
+
                 $order->save();
                 update_post_meta(
                     $order_id,
@@ -775,9 +777,18 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     __("ID транзакції (transaction id): ") .
                     $data_response[ApiService::P_RES_TRSACT_ID]
                 );
+
+                /**Uncomment the code if the ability to deposit funds through the admin panel is enabled*/
+
+                /**
                 $order->add_order_note(
                     sprintf(__('Сума платежу зарезервована через %s, необхідно змінити статус замовлення на "Обробка" для зарахування коштів', "tp_gateway"), TPG_TITLE)
                 );
+                 */
+
+                $order->add_order_note(__('Зарахування резерву можна провести у мерчант-порталі', "tp_gateway"));
+                $order->add_order_note(__('Скасування резерву можна провести у мерчант-порталі', "tp_gateway"));
+
                 $order->save();
                 update_post_meta(
                     $order_id,
@@ -832,6 +843,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                         "tp_gateway"
                     ), TPG_TITLE)
                 );
+                $order->add_order_note(__('Повернення коштів можна провести у мерчант-порталі', "tp_gateway"));
+
                 if($data_response['amount'] > 0 && $data_response['amount'] < $order->get_total()){
                     $order->update_status(
                             $this->custom_auth_part_success_status,

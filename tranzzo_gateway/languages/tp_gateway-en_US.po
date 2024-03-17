@@ -186,3 +186,12 @@ msgstr "Successful crediting of the entire amount of the reserve"
 
 msgid "Успішне скасування резерву"
 msgstr "Successful cancellation of reserve"
+
+msgid "Повернення коштів можна провести у мерчант-порталі"
+msgstr "Funds refund can be initiated via the merchant portal"
+
+msgid "Зарахування резерву можна провести у мерчант-порталі"
+msgstr "Preauthorized funds can be captured via the merchant portal"
+
+msgid "Скасування резерву можна провести у мерчант-порталі"
+msgstr "Preauthorized funds can be released via the merchant portal"
