@@ -153,7 +153,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             $this->enabled = "no";
         }
 
-        $this->supports[] = "refunds";
+        /**
+         * Uncomment the code if you want to enable refunds using Tranzzo from the admin panel
+         */
+        //$this->supports[] = "refunds";
 
         add_action("woocommerce_update_options_payment_gateways_" . $this->id, [
             $this,
@@ -168,10 +171,18 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         //API Callback function
         add_action('woocommerce_api_'.strtolower(get_class($this)), array(&$this, 'checkTPResponse'));
 
+
+        /**
+         * Uncomment the code if you want to enable the possibility of crediting retained funds
+         * using Tranzzo from the admin panel
+         */
+
+        /**
         add_action("woocommerce_order_status_on-hold_to_processing", [
             $this,
             "capturePayment",
         ]);
+        */
 
         $this->init_form_fields();
         $this->init_settings();
