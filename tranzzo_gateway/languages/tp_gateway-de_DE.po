@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-16 14:11+0200\n"
+"PO-Revision-Date: 2024-03-17 17:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -186,3 +186,12 @@ msgstr "Erfolgreiche Gutschrift des gesamten Reservebetrages"
 
 msgid "Успішне скасування резерву"
 msgstr "Erfolgreiche Stornierung der Reserve"
+
+msgid "Повернення коштів можна провести у мерчант-порталі"
+msgstr "Rückerstattungen können im Händlerportal vorgenommen werden"
+
+msgid "Зарахування резерву можна провести у мерчант-порталі"
+msgstr "Die Anmeldung der Reserve kann im Händlerportal erfolgen"
+
+msgid "Скасування резерву можна провести у мерчант-порталі"
+msgstr "Sie können die Reservierung im Händlerportal stornieren"
