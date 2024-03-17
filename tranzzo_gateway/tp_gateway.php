@@ -3,7 +3,7 @@
 Plugin Name: Платіжний шлюз
 Description: Платіжний шлюз для сайтів WordPress.
 Version: 2.0.1
-Last Update: 30.01.2024
+Last Update: 18.03.2024
 Author: TRANZZO
 Author URI: https://docs.tranzzo.com/uk/
 Text Domain: tp_gateway

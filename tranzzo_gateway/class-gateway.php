@@ -35,6 +35,50 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public $successStatus;
     /**
+     * @var string
+     */
+    public $custom_pending_status;
+    /**
+     * @var string
+     */
+    public $custom_failed_status;
+    /**
+     * @var string
+     */
+    public $custom_success_status;
+    /**
+     * @var string
+     */
+    public $custom_refunded_status;
+    /**
+     * @var string
+     */
+    public $custom_auth_pending_status;
+    /**
+     * @var string
+     */
+    public $custom_auth_failed_status;
+    /**
+     * @var string
+     */
+    public $custom_success_auth_status;
+    /**
+     * @var string
+     */
+    public $custom_auth_part_success_status;
+    /**
+     * @var string
+     */
+    public $custom_auth_success_status;
+    /**
+     * @var string
+     */
+    public $custom_auth_voided_status;
+    /**
+     * @var string
+     */
+    public $custom_auth_refunded_status;
+    /**
      * @var int
      */
     public $typePayment;
@@ -83,6 +127,18 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         $successStatus = str_replace('wc-','', $this->get_option("custom_success_status"));
         $this->successStatus = $successStatus != "processing" ? $successStatus : null;
+
+        $this->custom_pending_status = str_replace('wc-','',$this->get_option("custom_pending_status"));
+        $this->custom_failed_status = str_replace('wc-','',$this->get_option("custom_failed_status"));
+        $this->custom_success_status = str_replace('wc-','',$this->get_option("custom_success_status"));
+        $this->custom_refunded_status = str_replace('wc-','',$this->get_option("custom_refunded_status"));
+        $this->custom_auth_pending_status = str_replace('wc-','',$this->get_option("custom_auth_pending_status"));
+        $this->custom_auth_failed_status = str_replace('wc-','',$this->get_option("custom_auth_failed_status"));
+        $this->custom_success_auth_status = str_replace('wc-','',$this->get_option("custom_success_auth_status"));
+        $this->custom_auth_part_success_status = str_replace('wc-','',$this->get_option("custom_auth_part_success_status"));
+        $this->custom_auth_success_status = str_replace('wc-','',$this->get_option("custom_auth_success_status"));
+        $this->custom_auth_voided_status = str_replace('wc-','',$this->get_option("custom_auth_voided_status"));
+        $this->custom_auth_refunded_status = str_replace('wc-','',$this->get_option("custom_auth_refunded_status"));
 
         $this->POS_ID = trim($this->get_option("POS_ID"));
         $this->API_KEY = trim($this->get_option("API_KEY"));
@@ -662,6 +718,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 if($this->successStatus){
                     $order->update_status($this->successStatus);
                 }
+
                 $order->add_order_note(
                     sprintf(__('Заказ успішно оплачений через %s ', "tp_gateway"), TPG_TITLE)
                 );
@@ -697,7 +754,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->set_transaction_id(
                     $data_response[ApiService::P_RES_TRSACT_ID]
                 );
-                $order->update_status("on-hold", TPG_TITLE);
+                $order->update_status($this->custom_success_auth_status, TPG_TITLE);
 
                 $order->add_order_note(
                     __("ID платежу (payment id): ") .
@@ -732,7 +789,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 ApiService::P_TRZ_ST_SUCCESS
             ) {
                 self::writeLog("!!!!!!!!! void", "", "check_response");
-                $order->update_status("cancelled", TPG_TITLE);
+                $order->update_status($this->custom_auth_voided_status, TPG_TITLE);
 
                 $order->add_order_note(
                     sprintf(__(
@@ -765,7 +822,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     ), TPG_TITLE)
                 );
                 if($data_response['amount'] > 0 && $data_response['amount'] < $order->get_total()){
-                    $order->update_status('partial-payment', __('Часткову оплату отримано', 'tp_gateway'));
+                    $order->update_status(
+                            $this->custom_auth_part_success_status,
+                            __('Часткову оплату отримано', 'tp_gateway')
+                    );
                     $order->save();
 
                     $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
@@ -780,7 +840,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     exit();
                 }
 
-                $order->update_status("completed", TPG_TITLE);
+                $order->update_status($this->custom_auth_success_status, TPG_TITLE);
                 $order->save();
                 update_post_meta(
                     $order_id,
@@ -829,7 +889,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
 
                 if($this->isFullRefunded($order_id,$order->get_total())){
-                    $order->update_status("refunded", TPG_TITLE);
+                    $order->update_status($this->custom_refunded_status, TPG_TITLE);
                     $order->save();
                 }
 
@@ -838,7 +898,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $order->get_status() == "pending" &&
                 $data_response[ApiService::P_RES_STATUS] == ApiService::P_TRZ_ST_FAILURE){
 
-                $order->update_status("cancelled", TPG_TITLE);
+                $order->update_status($this->custom_failed_status, TPG_TITLE);
                 $order->save();
                 self::writeLog("failed payment", "", "check_response");
 
@@ -1113,7 +1173,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     ), TPG_TITLE)
                 );
 
-                $order->update_status("completed", TPG_TITLE);
+                $order->update_status($this->custom_auth_success_status, TPG_TITLE);
+
                 $order->save();
                 update_post_meta(
                     $order_id,
