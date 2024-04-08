@@ -210,10 +210,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 }
             </style>
             <h3><?=TPG_TITLE;?></h3>
-            <a href="<?=__("https://docs.tranzzo.com/uk/","tp_gateway");?>"><?=__("Документація","tp_gateway");?></a>
+            <a href="<?=get_locale() != 'uk' ? TPG_SUPPORT_URL_EN : TPG_SUPPORT_URL_UK;?>"><?=__("Документація","tp_gateway");?></a>
             <p><a
                    class="button-primary"
-                   href="mailto:support@tranzzo.com"><?=__("Звʼязатися з підтримкою","tp_gateway");?>
+                   href="mailto:<?=TPG_SUPPORT_EMAIL;?>"><?=__("Звʼязатися з підтримкою","tp_gateway");?>
                 </a>
             </p>
             <table class="form-table update-form-table">
