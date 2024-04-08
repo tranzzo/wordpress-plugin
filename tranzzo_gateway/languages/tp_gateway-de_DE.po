@@ -195,3 +195,6 @@ msgstr "Die Anmeldung der Reserve kann im Händlerportal erfolgen"
 
 msgid "Скасування резерву можна провести у мерчант-порталі"
 msgstr "Sie können die Reservierung im Händlerportal stornieren"
+
+msgid "Платіжний процес"
+msgstr "Bezahlvorgang"

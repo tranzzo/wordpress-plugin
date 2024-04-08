@@ -195,3 +195,6 @@ msgstr "L'inscription de la réserve peut être effectuée dans le portail march
 
 msgid "Скасування резерву можна провести у мерчант-порталі"
 msgstr "Vous pouvez annuler la réserve dans le portail marchand"
+
+msgid "Платіжний процес"
+msgstr "Processus de paiement"
