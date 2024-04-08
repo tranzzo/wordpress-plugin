@@ -302,13 +302,13 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "label" => __("Увімкнути тестовий режим", "tp_gateway"),
                 "default" => "yes",
             ],
-            "typePayment" => [
+            /*"typePayment" => [
                 "title" => __("Холдування коштів", "tp_gateway"),
                 "type" => "checkbox",
                 "label" => __("Увімкнути", "tp_gateway"),
                 "default" => "no",
-            ],
-            "select_payment_process" => [
+            ],*/
+            "typePayment" => [
                 "title" => __("Платіжний процес", "tp_gateway"),
                 "type" => "select",
                 "description" => __(
@@ -316,10 +316,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     "tp_gateway"
                 ),
                 'options' => array(
-                        'one' => __('Одностадійна оплата', "tp_gateway"),
-                        'two' => __('Двостадійна оплата', "tp_gateway"),
+                        'no' => __('Одностадійна оплата', "tp_gateway"),
+                        'yes' => __('Двостадійна оплата', "tp_gateway"),
                 ),
-                "default" => $this->typePayment ? "two" : "one",
+                "default" => $this->typePayment ? "yes" : "no",
             ],
             "custom_pending_status" => [
                 "title" => __("Платіж знаходиться в обробці", "tp_gateway"),
