@@ -567,7 +567,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             );
             $apiService->setResultUrl($this->get_return_url($order));
             $apiService->setOrderId($order_id);
-            $apiService->setAmount($this->testMode ? 2 : $data_order["total"]);
+            //$apiService->setAmount($this->testMode ? 2 : $data_order["total"]);
+            $apiService->setAmount($data_order["total"]);
             $apiService->setCurrency($this->testMode ? "XTS" : $data_order["currency"]);
             $apiService->setDescription("Order #{$order_id}");
 
@@ -714,7 +715,8 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $data_response[ApiService::P_RES_AMOUNT]
             );
 
-            $woocommerceOrderTotal = $this->testMode ? 2 : $order->get_total();
+            //$woocommerceOrderTotal = $this->testMode ? 2 : $order->get_total();
+            $woocommerceOrderTotal = $order->get_total();
             $amount_order = ApiService::amountToDouble($woocommerceOrderTotal);
 
             if (
@@ -907,9 +909,9 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                 $refundAmount = $data_response['amount'];
 
-                if($this->testMode){
+                /*if($this->testMode){
                     $refundAmount = $data_response['amount'] == 1 ?  ($order->get_total() / 2) : $order->get_total();
-                }
+                }*/
 
                 $refund = wc_create_refund( array(
                     'amount'         => $refundAmount,
@@ -1062,7 +1064,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
         if($this->testMode){
             $order_currency = "XTS";
-            $amount = (int)$amount < (int)$order_total ? 1 : 2;
+            //$amount = (int)$amount < (int)$order_total ? 1 : 2;
         }
 
         $apiService = new ApiService(
