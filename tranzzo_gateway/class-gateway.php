@@ -622,6 +622,15 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $woocommerce->cart->empty_cart();
                 update_post_meta($order_id, 'redirect_url', $response["redirect_url"]);
 
+                $response['currency'] = $this->testMode ? "XTS" : $data_order["currency"];
+                $response['method'] = $this->typePayment == 1 ? 'auth' : 'purchase';
+
+                update_post_meta(
+                    $order_id,
+                    "_tp_response",
+                    json_encode($response)
+                );
+
                 return $response["redirect_url"];
                 exit();
             }
