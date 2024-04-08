@@ -26,28 +26,28 @@ function custom_payment_gateway_admin_script() {
                 let formElement = $('.update-form-table').parent('form');
                 let saveButton = formElement.find('.woocommerce-save-button');
 
-                let selectPaymentProcess = $('#woocommerce_my_custom_gateway_select_payment_process');
+                let selectPaymentProcess = $('#woocommerce_my_custom_gateway_typePayment');
 
                 if(selectPaymentProcess.length){
                     let oneStepStatusesFields = [
+                        $("#mainform > table > tbody > tr:nth-child(10)"),
                         $("#mainform > table > tbody > tr:nth-child(11)"),
                         $("#mainform > table > tbody > tr:nth-child(12)"),
-                        $("#mainform > table > tbody > tr:nth-child(13)"),
-                        $("#mainform > table > tbody > tr:nth-child(14)")
+                        $("#mainform > table > tbody > tr:nth-child(13)")
                     ];
 
                     let twoStepStatusesFields = [
+                        $("#mainform > table > tbody > tr:nth-child(14)"),
                         $("#mainform > table > tbody > tr:nth-child(15)"),
                         $("#mainform > table > tbody > tr:nth-child(16)"),
                         $("#mainform > table > tbody > tr:nth-child(17)"),
                         $("#mainform > table > tbody > tr:nth-child(18)"),
                         $("#mainform > table > tbody > tr:nth-child(19)"),
                         $("#mainform > table > tbody > tr:nth-child(20)"),
-                        $("#mainform > table > tbody > tr:nth-child(21)"),
                     ]
 
                     if(isTwoStepPayment == 1){
-                        selectPaymentProcess.val('two');
+                        selectPaymentProcess.val('yes');
                         oneStepStatusesFields.forEach(function(oneStepStatusesField){
                             if(oneStepStatusesField.length) {
                                 oneStepStatusesField.hide();
@@ -59,7 +59,7 @@ function custom_payment_gateway_admin_script() {
                             }
                         });
                     }else{
-                        selectPaymentProcess.val('one');
+                        selectPaymentProcess.val('no');
                         oneStepStatusesFields.forEach(function(oneStepStatusesField){
                             if(oneStepStatusesField.length) {
                                 oneStepStatusesField.show();
@@ -78,7 +78,7 @@ function custom_payment_gateway_admin_script() {
                         let $this = $(this);
                         let value = $this.val();
 
-                        if(value == 'one'){
+                        if(value == 'no'){
                             oneStepStatusesFields.forEach(function(oneStepStatusesField){
                                 if(oneStepStatusesField.length) {
                                     oneStepStatusesField.show();
@@ -101,16 +101,6 @@ function custom_payment_gateway_admin_script() {
                                 }
                             });
                         }
-                    });
-
-                    $('#woocommerce_my_custom_gateway_typePayment').change(function(e) {
-                        if(this.checked) {
-                            selectPaymentProcess.val('two');
-                        }else{
-                            selectPaymentProcess.val('one');
-                        }
-
-                        selectPaymentProcess.trigger('change');
                     });
                 }
 
