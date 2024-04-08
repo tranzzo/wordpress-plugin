@@ -93,5 +93,21 @@ function create_table_in_db() {
     dbDelta($sql);
 }
 
+function deactivate_tp_gateway_plugin() {
+    delete_table_in_db();
+    delete_options_in_db();
+}
+register_deactivation_hook(__FILE__, 'deactivate_tp_gateway_plugin');
+
+function delete_table_in_db() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'tp_gateway_transactions';
+    $wpdb->query("DROP TABLE IF EXISTS $table_name");
+}
+
+function delete_options_in_db(){
+    delete_option('woocommerce_my_custom_gateway_settings');
+}
+
 include(plugin_dir_path(__FILE__) . 'actions.php');
 ?>

@@ -241,6 +241,7 @@ class ApiService
             $this->params[self::P_REQ_METHOD] = self::P_METHOD_AUTH;
         }
         self::writeLog('name type_payment', $this->params[self::P_REQ_METHOD]);
+
         return $this->request(self::R_METHOD_POST, self::U_METHOD_PAYMENT);
     }
 
@@ -255,6 +256,7 @@ class ApiService
         self::writeLog(array('posId' => $params[self::P_REQ_POS_ID]));
 
         self::writeLog(array('$params' => $params));
+
         return $this->request(self::R_METHOD_POST, self::U_METHOD_VOID, $params);
     }
 
@@ -267,6 +269,7 @@ class ApiService
 
         self::writeLog(array('$params' => $params));
         self::writeLog(array('this ser' => (array)$this));
+
         return $this->request(self::R_METHOD_POST, self::U_METHOD_CAPTURE, $params);
     }
 

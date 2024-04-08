@@ -17,7 +17,8 @@
 3. Заповнити всі поля налаштувань платіжного шлюзу **"TRANZZO"**.
     - **Увімкнено / Вимкнено** - Увімкнути/вимкнути платіжний шлюз із доступних методів оплати
     - **Тестовий режим** - Увімкнути/вимкнути тестовий режим, при якому всі транзакції відбуваються у тестовій валюті **"XTS"**
-    та не списуються реальні кошти.
+    та не списуються реальні кошти. 
+    (Якщо в налаштуваннях платіжного методу увімкнено тестовий режим, мінімальна допустима сума платежу повина бути 1XTS / максимальна 2XTS)
     - **Опис** - Опис, який відображається в процесі вибору форми оплати
     - **Холдування коштів** -  Увімкнути/вимкнути метод двостадійної оплати. Це платіжний процес, що передбачає тимчасове 
     резервування (холдування) коштів клієнта на банківському рахунку для подальшого проведення платежу.
@@ -42,8 +43,10 @@ You can do so in the [merchant portal](https://space.tranzzo.com/login)
 2. Open the WooCommerce settings page, go to the **"Payments"** tab, and click **"TRANZZO"**.
 3. Fill in all the settings fields of the **"TRANZZO"** payment gateway:
     - **Enabled / Disabled** - Enable/disable the payment gateway from the available payment methods.
-    - **Test mode** - Enable/disable the test mode, where all transactions occur in the test currency **"XTS"** and no real funds are deducted.
+    - **Test mode** - Enable/disable the test mode, where all transactions occur in the test currency **"XTS"** and no real funds are deducted. 
+    (If the test mode is enabled in the payment method settings, the minimum allowable payment amount must be 1XTS / maximum 2XTS)
     - **Description** - Description displayed during the payment method selection process.
     - **Payment with preauthorization** - Enable/disable the two-step payment method. This is a payment process that involves temporarily reserving (holding) the customer's funds in a bank account for further payment processing.
 
  [![Текст описания](https://docs.tranzzo.com/img/logo.svg)](https://docs.tranzzo.com/docs/getting-started/integration-checklist/)
+ 
