@@ -198,7 +198,7 @@ function payment_gateway_orders_column_content($column, $post_id) {
         );
         if($tp_response) {
             $tp_response = json_decode($tp_response[0], true);
-            $currency = isset($tp_response['currency']) ? isset($tp_response['currency']) : null;
+            $currency = isset($tp_response['currency']) ? $tp_response['currency'] : null;
             if($currency == 'XTS'){
                 $style = "display: block;
                             width: fit-content;
@@ -348,7 +348,8 @@ function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($orde
             }
         }
 
-        $currency = isset($tp_response['currency']) ? isset($tp_response['currency']) : null;
+        $currency = isset($tp_response['currency']) ? $tp_response['currency'] : null;
+
         if($currency == 'XTS'){
             $style = "display: block;
                             width: fit-content;
