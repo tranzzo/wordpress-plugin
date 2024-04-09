@@ -602,6 +602,16 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
             if(isset($response['args']['code']) && $response['args']['code'] == 'P-409'){
                 $redirectUrl = get_post_meta($order_id, 'redirect_url', true);
+
+                $response['currency'] = $this->testMode ? "XTS" : $data_order["currency"];
+                $response['method'] = $this->typePayment == 1 ? 'auth' : 'purchase';
+
+                update_post_meta(
+                    $order_id,
+                    "_tp_response",
+                    json_encode($response)
+                );
+
                 $woocommerce->cart->empty_cart();
                 WC()->session->destroy_session();
 
