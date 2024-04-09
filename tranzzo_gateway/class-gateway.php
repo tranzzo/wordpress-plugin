@@ -615,6 +615,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $woocommerce->cart->empty_cart();
                 WC()->session->destroy_session();
 
+                if($this->typePayment == 1) {
+                    $order->update_status($this->custom_auth_pending_status, TPG_TITLE);
+                }else{
+                    $order->update_status($this->custom_pending_status, TPG_TITLE);
+                }
+
                 return $redirectUrl;
                 exit();
             }
@@ -631,6 +637,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     "_tp_response",
                     json_encode($response)
                 );
+
+                if($this->typePayment == 1) {
+                    $order->update_status($this->custom_auth_pending_status, TPG_TITLE);
+                }else{
+                    $order->update_status($this->custom_pending_status, TPG_TITLE);
+                }
 
                 return $response["redirect_url"];
                 exit();
