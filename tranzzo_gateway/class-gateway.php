@@ -326,8 +326,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/status-codes/payment-cycle/" :
-                        "https://docs.tranzzo.com/uk/docs/status-codes/payment-cycle/"
+                    get_locale() != 'uk' ? CUSTOM_PENDING_STATUS_EN : CUSTOM_PENDING_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-pending",
@@ -337,8 +336,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/status-codes/codes-by-stages/" :
-                        "https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/"
+                    get_locale() != 'uk' ? CUSTOM_FAILED_STATUS_EN : CUSTOM_FAILED_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-failed",
@@ -348,8 +346,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-purchase/overview/" :
-                        "https://docs.tranzzo.com/uk/docs/transactions-purchase/overview/"
+                    get_locale() != 'uk' ? CUSTOM_SUCCESS_STATUS_EN : CUSTOM_SUCCESS_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-completed",
@@ -360,8 +357,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-refund/overview/" :
-                    "https://docs.tranzzo.com/uk/docs/transactions-refund/overview/"
+                    get_locale() != 'uk' ? CUSTOM_REFUNDED_STATUS_EN : CUSTOM_REFUNDED_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-refunded",
@@ -371,8 +367,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/status-codes/payment-cycle/" :
-                        "https://docs.tranzzo.com/uk/docs/status-codes/payment-cycle/"
+                    get_locale() != 'uk' ? CUSTOM_AUTH_PENDING_STATUS_EN : CUSTOM_AUTH_PENDING_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-pending",
@@ -382,8 +377,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/status-codes/codes-by-stages/" :
-                        "https://docs.tranzzo.com/uk/docs/status-codes/codes-by-stages/"
+                    get_locale() != 'uk' ? CUSTOM_AUTH_FAILED_STATUS_EN : CUSTOM_AUTH_FAILED_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-failed",
@@ -393,8 +387,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/auth/" :
-                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/auth/"
+                    get_locale() != 'uk' ? CUSTOM_SUCCESS_AUTH_STATUS_EN : CUSTOM_SUCCESS_AUTH_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-on-hold",
@@ -404,8 +397,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/capture/api/#capture-the-part-of-the-amount" :
-                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/capture/api/#%D0%B7%D0%B0%D1%80%D0%B0%D1%85%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D1%87%D0%B0%D1%81%D1%82%D0%B8%D0%BD%D0%B8-%D1%81%D1%83%D0%BC%D0%B8-%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2%D1%83"
+                    get_locale() != 'uk' ? CUSTOM_AUTH_PART_SUCCESS_STATUS_EN : CUSTOM_AUTH_PART_SUCCESS_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-partial-payment",
@@ -415,8 +407,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/capture/api/#capture-of-the-entire-amount" :
-                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/capture/api/#%D0%B7%D0%B0%D1%80%D0%B0%D1%85%D1%83%D0%B2%D0%B0%D0%BD%D0%BD%D1%8F-%D0%B2%D1%81%D1%96%D1%94%D1%97-%D1%81%D1%83%D0%BC%D0%B8-%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2%D1%83"
+                    get_locale() != 'uk' ? CUSTOM_AUTH_SUCCESS_STATUS_EN : CUSTOM_AUTH_SUCCESS_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-completed",
@@ -426,8 +417,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-2-step/void/" :
-                        "https://docs.tranzzo.com/uk/docs/transactions-2-step/void/"
+                    get_locale() != 'uk' ? CUSTOM_AUTH_VOIDED_STATUS_EN : CUSTOM_AUTH_VOIDED_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-cancelled",
@@ -437,8 +427,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "type" => "select",
                 "description" => sprintf(
                     __("Встановіть поточний статус вашого замовлення WooCommerce для відповідної транзакції <a href='%s'>Опис</a>", "tp_gateway"),
-                    get_locale() != 'uk' ? "https://docs.tranzzo.com/docs/transactions-refund/overview/" :
-                        "https://docs.tranzzo.com/uk/docs/transactions-refund/overview/"
+                    get_locale() != 'uk' ? CUSTOM_AUTH_REFUNDED_STATUS_EN : CUSTOM_AUTH_REFUNDED_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
                 "default" => "wc-refunded",
@@ -614,6 +603,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             if(isset($response['args']['code']) && $response['args']['code'] == 'P-409'){
                 $redirectUrl = get_post_meta($order_id, 'redirect_url', true);
                 $woocommerce->cart->empty_cart();
+                WC()->session->destroy_session();
 
                 return $redirectUrl;
                 exit();
