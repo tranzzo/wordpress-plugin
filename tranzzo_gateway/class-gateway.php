@@ -116,7 +116,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $this->method_title = sprintf(__('%s Gateway', "tp_gateway"), TPG_TITLE);
         $this->method_description = sprintf(__('Приймайте платежі через %s Gateway ', "tp_gateway"), TPG_TITLE);
 
-        $this->title = $this->get_option("title");
+        $this->title = !empty($this->get_option("title")) ? $this->get_option("title") : TPG_TITLE;
         $this->description = $this->get_option("description");
 
         $this->language = $this->get_option("language");
