@@ -341,7 +341,7 @@ function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($orde
             $refunded = floatval($transactions->get_total_refunded_amount($order_id));
             $captured = floatval($transactions->get_total_captured_amount($order_id));
 
-            if ($refunded >= $captured) {
+            if ($refunded <= $captured) {
                 echo '<div class="notice notice-info">
                 <p>' . __("Необхідно змінити статус замовлення на 'Повернено'", "tp_gateway") . '</p>
               </div>';

@@ -329,7 +329,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     get_locale() != 'uk' ? CUSTOM_PENDING_STATUS_EN : CUSTOM_PENDING_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
-                "default" => "wc-pending",
+                "default" => "wc-processing",
             ],
             "custom_failed_status" => [
                 "title" => __("Помилка при списанні коштів", "tp_gateway"),
@@ -370,7 +370,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     get_locale() != 'uk' ? CUSTOM_AUTH_PENDING_STATUS_EN : CUSTOM_AUTH_PENDING_STATUS_UK
                 ),
                 'options' => wc_get_order_statuses(),
-                "default" => "wc-pending",
+                "default" => "wc-processing",
             ],
             "custom_auth_failed_status" => [
                 "title" => __("Помилка при резервувані коштів", "tp_gateway"),
@@ -615,11 +615,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $woocommerce->cart->empty_cart();
                 WC()->session->destroy_session();
 
-                if($this->typePayment == 1) {
-                    $order->update_status($this->custom_auth_pending_status, TPG_TITLE);
-                }else{
-                    $order->update_status($this->custom_pending_status, TPG_TITLE);
-                }
+                $order->update_status('pending', TPG_TITLE);
+                $order->add_order_note(
+                    __("Заказ в очікуванні оплати", "tp_gateway")
+                );
 
                 return $redirectUrl;
                 exit();
@@ -638,11 +637,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     json_encode($response)
                 );
 
-                if($this->typePayment == 1) {
-                    $order->update_status($this->custom_auth_pending_status, TPG_TITLE);
-                }else{
-                    $order->update_status($this->custom_pending_status, TPG_TITLE);
-                }
+                $order->update_status('pending');
+                $order->add_order_note(
+                    __("Заказ в очікуванні оплати", "tp_gateway")
+                );
 
                 return $response["redirect_url"];
                 exit();
@@ -951,16 +949,19 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                 return;
                 exit();
-            } elseif ($order->get_status() == "pending") {
+            } elseif (/*$order->get_status() == "pending"*/$data_response[ApiService::P_RES_STATUS] == ApiService::P_TRZ_ST_PENDING) {
+
+                if($this->typePayment == 1) {
+                    $order->update_status($this->custom_auth_pending_status, TPG_TITLE);
+                }else{
+                    $order->update_status($this->custom_pending_status, TPG_TITLE);
+                }
                 self::writeLog(
                     "pen",
                     "Заказ в очікуванні оплати",
                     "check_response"
                 );
 
-                $order->add_order_note(
-                    __("Заказ в очікуванні оплати", "tp_gateway")
-                );
                 $order->save();
             }
 
