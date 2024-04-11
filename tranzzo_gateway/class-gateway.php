@@ -144,10 +144,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $this->API_KEY = trim($this->get_option("API_KEY"));
         $this->API_SECRET = trim($this->get_option("API_SECRET", "PAY ONLINE"));
         $this->ENDPOINTS_KEY = trim($this->get_option("ENDPOINTS_KEY"));
-        $this->icon = apply_filters(
+        /*$this->icon = apply_filters(
             "woocommerce_tp_icon",
             plugin_dir_url(__FILE__) . "images/logo.png"
-        );
+        );*/
 
         if (!$this->supportCurrencyAPI()) {
             $this->enabled = "no";
