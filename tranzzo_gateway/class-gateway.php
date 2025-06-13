@@ -108,6 +108,29 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     public $icon;
 
     /**
+     * @var array
+     */
+    protected static $supportCurrencyAPI = [
+        "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN",
+        "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL",
+        "BSD", "BTN", "BWP", "BZD", "CAD", "CDF", "CHF", "CLP", "CNY",
+        "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD",
+        "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GHS", "GIP",
+        "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR",
+        "ILS", "INR", "IQD", "ISK", "JMD", "JOD", "JPY", "KES", "KGS",
+        "KHR", "KMF", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR",
+        "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP",
+        "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO",
+        "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN",
+        "PYG", "QAR", "RON", "RSD", "RWF", "SAR", "SBD", "SCR", "SDG",
+        "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "SSP", "STD", "SVC", "SYP",
+        "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS",
+        "UAH", "UGX", "USD", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF",
+        "XAG", "XAU", "XBA", "XBB", "XBC", "XBD", "XCD", "XDR", "XOF", "XPD",
+        "XPF", "XPT", "XSU", "XTS", "XUA", "XXX", "YER", "ZAR", "ZMW", "ZWL",
+    ];
+
+    /**
      * My_Custom_Gateway constructor.
      */
     public function __construct()
@@ -149,9 +172,16 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             plugin_dir_url(__FILE__) . "images/logo.png"
         );*/
 
-        if (!$this->supportCurrencyAPI()) {
+        if (!self::supportCurrencyAPI()) {
             $this->enabled = "no";
         }
+
+        add_filter(
+            'woocommerce_settings_api_sanitized_fields_' . $this->id, [
+                 $this,
+                'force_disable_if_currency_not_supported',
+            ]
+        );
 
         /**
          * Uncomment the code if you want to enable refunds using Tranzzo from the admin panel
@@ -198,7 +228,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public function admin_options()
     {
-        if ($this->supportCurrencyAPI()) { ?>
+        if (self::supportCurrencyAPI()) { ?>
             <style>
                 table.update-form-table{
                     width: 38%;
@@ -231,7 +261,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 <strong><?php _e(
                         "Платіжний шлюз вимкнено.",
                         "tp_gateway"
-                    ); ?></strong>: <?php sprintf(_e(
+                    ); ?></strong>: <?php printf(__(
                     '%s не підтримує валюту Вашого магазину!',
                     "tp_gateway"
                 ), TPG_TITLE); ?>
@@ -250,7 +280,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "title" => __("Увімкнено / Вимкнено", "tp_gateway"),
                 "type" => "checkbox",
                 "label" => sprintf(__('Увімкнути %s Gateway ', "tp_gateway"), TPG_TITLE),
-                "default" => "yes",
+                "default" => "no",
             ],
             "title" => [
                 "title" => __("Заголовок", "tp_gateway"),
@@ -261,7 +291,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 ),
                 "default" => TPG_TITLE,
                 "desc_tip" => true,
-                'custom_attributes' => array('readonly' => 'readonly')
+                'custom_attributes' => array('readonly' => 'readonly'),
             ],
             "description" => [
                 "title" => __("Опис", "tp_gateway"),
@@ -435,6 +465,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         ];
     }
 
+    public function needs_setup() {
+        return true;
+    }
+
     public function validate_POS_ID_field($key, $value) {
         if ( empty( $value ) ) {
             WC_Admin_Settings::add_error(
@@ -482,13 +516,28 @@ class My_Custom_Gateway extends WC_Payment_Gateway
     /**
      * @return bool
      */
-    function supportCurrencyAPI()
+    public static function  supportCurrencyAPI()
     {
-        if (!in_array(get_option("woocommerce_currency"), ["USD", "EUR", "UAH", "RUB",])) {
-            return false;
+        return in_array(get_option("woocommerce_currency"), self::$supportCurrencyAPI);
+    }
+
+    public function force_disable_if_currency_not_supported($settings)
+    {
+        if (!self::supportCurrencyAPI()) {
+            $settings['enabled'] = 'no';
+
+            add_action('admin_notices', function () {
+                echo '<div class="notice notice-error"><p>';
+                _e("Платіжний шлюз вимкнено.", "tp_gateway");
+                printf(__(
+                    '%s не підтримує валюту Вашого магазину!',
+                    "tp_gateway"
+                ), TPG_TITLE);
+                echo '</p></div>';
+            });
         }
 
-        return true;
+        return $settings;
     }
 
     /**
@@ -502,30 +551,27 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $redirect = $this->generate_form($order);
 
         if(is_array($redirect)){
-            wc_add_notice($redirect['message'] , 'error');
+            self::writeLog($redirect, 'test');
 
-            if(is_array($redirect['args'])){
-                foreach ($redirect['args'] as $key => $arg){
-                    if(is_array($arg)){
-                        wc_add_notice(
-                            $key.': '.http_build_query($arg,'',', '),
-                            'error'
-                        );
-                    }else{
-                        wc_add_notice($key.': '.$redirect['message'] , 'error');
-                    }
-                }
+            if(isset($redirect['args']) && is_array($redirect['args'])){
+                $formattedHtml = self::format_api_message_html($redirect['args']);
+                $order->update_meta_data('order_error_message', $redirect['message'].wc_help_tip($formattedHtml));
+                $order->save();
+
+                wc_add_notice('<strong>' . esc_html($redirect['message']) . '</strong>' . $formattedHtml, 'error');
+            }else{
+                wc_add_notice(esc_html($redirect['message']), 'error');
             }
 
             return array(
                 'result'   => 'failure',
-                'messages' => $redirect['message']
+                'messages' => $redirect['message'],
             );
         }
 
         return [
             "result" => "success",
-            "redirect" => $redirect
+            "redirect" => $redirect,
         ];
     }
 
@@ -650,7 +696,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
 
                 return array(
                     'message' => $response['message'],
-                    'args' => $response['args']
+                    'args' => $response['args'],
                 );
                 exit();
             }
@@ -928,7 +974,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                     'reason'         => '',
                     'order_id'       => $order_id,
                     'line_items'     => array(),
-                    'refund_payment' => false
+                    'refund_payment' => false,
                 ));
 
                 $transaction->create_transaction($data_response["method"], $data_response['amount'], $order_id);
@@ -1091,7 +1137,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
             "refund_date" => date("Y-m-d H:i:s"),
             "order_id" => strval($tp_response["order_id"]),
             "refund_amount" => strval($amount),
-            'comment' => $reason
+            'comment' => $reason,
         ];
 
         self::writeLog(["data" => $data]);
@@ -1313,6 +1359,47 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 FILE_APPEND
             );
         }
+    }
+
+    static function format_api_message_html($data){
+        if (is_string($data)) {
+            return '<li>' . htmlspecialchars($data) . '</li>';
+        }
+
+        if (is_array($data)) {
+            $lines = [];
+
+            foreach ($data as $key => $value) {
+                if (is_array($value) && isset($value['field_name'], $value['violation'])) {
+                    $lines[] = '<li><strong>' . htmlspecialchars($value['field_name']) . ':</strong> ' . htmlspecialchars($value['violation']) . '</li>';
+                    continue;
+                }
+
+                if (is_array($value) && isset($value['msg']) && is_array($value['msg'])) {
+                    foreach ($value['msg'] as $msg) {
+                        $lines[] = '<li>' . htmlspecialchars($msg) . '</li>';
+                    }
+                    continue;
+                }
+
+                $prefix = is_string($key) ? '<strong>' . htmlspecialchars($key) . ':</strong> ' : '';
+
+                $nested = self::format_api_message_html($value);
+                if ($nested !== '') {
+                    if (str_starts_with($nested, '<li>')) {
+                        $lines[] = '<li>' . $prefix . strip_tags($nested, '<strong><li>') . '</li>';
+                    } else {
+                        $lines[] = $nested;
+                    }
+                }
+            }
+
+            if (!empty($lines)) {
+                return '<ul>' . implode('', $lines) . '</ul>';
+            }
+        }
+
+        return '';
     }
 }
 ?>
