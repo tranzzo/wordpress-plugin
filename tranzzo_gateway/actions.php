@@ -142,6 +142,7 @@ function custom_payment_gateway_admin_script() {
     }
 }
 add_filter( 'manage_edit-shop_order_columns', 'payment_gateway_orders_column' );
+add_filter( 'manage_woocommerce_page_wc-orders_columns', 'payment_gateway_orders_column' );
 function payment_gateway_orders_column( $columns ) {
 
     $columns['order_transactions'] = __('Транзакції', 'tp_gateway');
@@ -152,6 +153,7 @@ function payment_gateway_orders_column( $columns ) {
 }
 
 add_action('manage_shop_order_posts_custom_column' , 'payment_gateway_orders_column_content', 11, 2);
+add_action( 'manage_woocommerce_page_wc-orders_custom_column', 'payment_gateway_orders_column_content', 11, 2);
 function payment_gateway_orders_column_content($column, $post_id) {
     $payment_method_id = 'my_custom_gateway';
     $order = wc_get_order($post_id);
@@ -180,6 +182,11 @@ function payment_gateway_orders_column_content($column, $post_id) {
                                         <span style="color: #000;font-size: 10px;">'.$transaction['date'].'</span>
                                     </span>
                                 </p>';
+                }
+            }else{
+                $order_error_message = $order->get_meta('order_error_message');
+                if($order_error_message) {
+                    $output = '<span style="color: #d63638">'.$order_error_message.'</span>';
                 }
             }
 
@@ -289,6 +296,11 @@ function custom_display_order_extra_info_admin($order_id) {
             }
 
             echo $output;
+        }else{
+            $order_error_message = $order->get_meta('order_error_message');
+            if($order_error_message) {
+                echo '<span style="color: #d63638">'.$order_error_message.'</span>';
+            }
         }
     }
 }
@@ -362,6 +374,28 @@ function tp_gateway_woocommerce_admin_order_data_after_payment_info_action($orde
                             color: #fff;";
 
             echo '<strong style="'.$style.'">Test</strong>';
+        }
+    }
+}
+
+add_action('update_option_woocommerce_currency', 'check_gateway_currency_after_change', 10, 2);
+function check_gateway_currency_after_change($old_value, $new_value)
+{
+    $gateway_id = 'my_custom_gateway';
+    require_once __DIR__ . '/class-gateway.php';
+
+    $option_name = 'woocommerce_' . $gateway_id . '_settings';
+    $settings = get_option($option_name, []);
+
+    if (!My_Custom_Gateway::supportCurrencyAPI($new_value)) {
+        if (isset($settings['enabled']) && $settings['enabled'] === 'yes') {
+            $settings['enabled'] = 'no';
+            update_option($option_name, $settings);
+        }
+    }else{
+        if ($settings['enabled'] !== 'yes') {
+            $settings['enabled'] = 'yes';
+            update_option($option_name, $settings);
         }
     }
 }
