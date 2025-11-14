@@ -198,3 +198,9 @@ msgstr "Sie können die Reservierung im Händlerportal stornieren"
 
 msgid "Платіжний процес"
 msgstr "Bezahlvorgang"
+
+msgid "Фіскалізація"
+msgstr "Fiskalisierung"
+
+msgid "Увімкнути фіскалізацію"
+msgstr "Fiskalisierung aktivieren"
