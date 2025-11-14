@@ -198,3 +198,9 @@ msgstr "Preauthorized funds can be released via the merchant portal"
 
 msgid "Платіжний процес"
 msgstr "Payment process"
+
+msgid "Фіскалізація"
+msgstr "Fiscalization"
+
+msgid "Увімкнути фіскалізацію"
+msgstr "Enable fiscalization"

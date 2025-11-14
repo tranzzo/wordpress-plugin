@@ -198,3 +198,9 @@ msgstr "Vous pouvez annuler la réserve dans le portail marchand"
 
 msgid "Платіжний процес"
 msgstr "Processus de paiement"
+
+msgid "Фіскалізація"
+msgstr "Fiscalisation"
+
+msgid "Увімкнути фіскалізацію"
+msgstr "Permettre la fiscalisation"

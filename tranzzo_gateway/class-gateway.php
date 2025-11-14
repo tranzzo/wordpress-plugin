@@ -87,6 +87,10 @@ class My_Custom_Gateway extends WC_Payment_Gateway
      */
     public $testMode;
     /**
+     * @var int
+     */
+    public $enableFiscalization;
+    /**
      * @var string
      */
     private $POS_ID;
@@ -147,6 +151,7 @@ class My_Custom_Gateway extends WC_Payment_Gateway
         $this->payment_method = $this->get_option("payment_method");
         $this->typePayment = $this->get_option("typePayment") == "yes" ? 1 : 0;
         $this->testMode = $this->get_option("test_mode") == "yes" ? 1 : 0;
+        $this->enableFiscalization = $this->get_option("enable_fiscalization") == "yes" ? 1 : 0;
 
         $successStatus = str_replace('wc-','', $this->get_option("custom_success_status"));
         $this->successStatus = $successStatus != "processing" ? $successStatus : null;
@@ -330,6 +335,12 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 "title" => __("Тестовий режим", "tp_gateway"),
                 "type" => "checkbox",
                 "label" => __("Увімкнути тестовий режим", "tp_gateway"),
+                "default" => "yes",
+            ],
+            "enable_fiscalization" => [
+                "title" => __("Фіскалізація", "tp_gateway"),
+                "type" => "checkbox",
+                "label" => __("Увімкнути фіскалізацію", "tp_gateway"),
                 "default" => "yes",
             ],
             /*"typePayment" => [
@@ -625,16 +636,21 @@ class My_Custom_Gateway extends WC_Payment_Gateway
                 $products = [];
                 foreach ($data_order["line_items"] as $item) {
                     $product = new WC_Order_Item_Product($item);
-                    $products[] = [
-                        "id" => strval($product->get_id()),
-                        "name" => $product->get_name(),
-                        "url" => $product->get_product()->get_permalink(),
-                        "currency" => $this->testMode ? "XTS" : $data_order["currency"],
-                        "amount" => ApiService::amountToDouble(
-                            $product->get_total()
-                        ),
-                        "qty" => $product->get_quantity(),
+                    $productFieldset = [
+                            "id" => strval($product->get_id()),
+                            "name" => $product->get_name(),
+                            "url" => $product->get_product()->get_permalink(),
+                            "currency" => $this->testMode ? "XTS" : $data_order["currency"],
+                            "amount" => ApiService::amountToDouble(
+                                    $product->get_total()
+                            ),
+                            "qty" => $product->get_quantity(),
                     ];
+                    if($this->enableFiscalization){
+                      $productFieldset["unit"] = "pc";
+                      $productFieldset["fiscalReceiptDelivery"] = $data_order["billing"]["email"];
+                    }
+                    $products[] = $productFieldset;
                 }
 
                 $apiService->setProducts($products);
