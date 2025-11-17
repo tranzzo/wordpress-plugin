@@ -21,27 +21,19 @@ class ApiService
     const P_REQ_ORDER_3DS_BYPASS = 'order_3ds_bypass';
     const P_REQ_CC_NUMBER = 'cc_number';
     const P_REQ_PAYWAY = 'payway';
-
     const P_METHOD_PURCHASE = 'purchase';
     const P_METHOD_AUTH = 'auth';
     const P_METHOD_CAPTURE = 'capture';
-
-
     const P_OPT_PAYLOAD = 'payload';
-
     const P_REQ_CUSTOMER_ID = 'customer_id';
     const P_REQ_CUSTOMER_EMAIL = 'customer_email';
     const P_REQ_CUSTOMER_FNAME = 'customer_fname';
     const P_REQ_CUSTOMER_LNAME = 'customer_lname';
     const P_REQ_CUSTOMER_PHONE = 'customer_phone';
-
     const P_REQ_SERVER_URL = 'server_url';
     const P_REQ_RESULT_URL = 'result_url';
-
     const P_REQ_SANDBOX = 'sandbox';
-
     const P_VOID_ORDER = 'order_id';
-
     const P_RES_PROV_ORDER = 'order_id';
     const P_RES_PAYMENT_ID = 'payment_id';
     const P_RES_TRSACT_ID = 'transaction_id';
@@ -52,23 +44,21 @@ class ApiService
     const P_RES_ORDER = 'order_id';
     const P_RES_AMOUNT = 'amount';
     const P_RES_CURRENCY = 'currency';
-
     const P_TRZ_ST_SUCCESS = 'success';
     const P_TRZ_ST_PENDING = 'pending';
     const P_TRZ_ST_CANCEL = 'rejected';
     const P_TRZ_ST_UNSUCCESSFUL = 'unsuccessful';
     const P_TRZ_ST_ANTIFRAUD = 'antifraud';
     const P_TRZ_ST_FAILURE = 'failure';
-
     const R_METHOD_GET = 'GET';
     const R_METHOD_POST = 'POST';
-
     const U_METHOD_PAYMENT = 'payment';
     const U_METHOD_POS = 'pos';
     const U_METHOD_REFUND = 'refund';
     const U_METHOD_CAPTURE = 'capture';
     const U_METHOD_AUTH = 'auth';
     const U_METHOD_VOID = 'void';
+    const F_RECEIPT_DELIVERY_EMAIL = 'f_receipt_delivery';
 
     /**
      * @var string
@@ -104,6 +94,7 @@ class ApiService
 
     /**
      * Ik_Service_Tranzzo_Api constructor.
+     *
      * @param $posId
      * @param $apiKey
      * @param $apiSecret
@@ -119,7 +110,6 @@ class ApiService
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
         $this->endpointsKey = $endpointKey;
-
     }
 
     public function setServerUrl($value = '')
@@ -164,20 +154,23 @@ class ApiService
 
     public function setCustomerFirstName($value = '')
     {
-        if (!empty($value))
+        if (!empty($value)) {
             $this->params[self::P_REQ_CUSTOMER_FNAME] = $value;
+        }
     }
 
     public function setCustomerLastName($value = '')
     {
-        if (!empty($value))
+        if (!empty($value)) {
             $this->params[self::P_REQ_CUSTOMER_LNAME] = $value;
+        }
     }
 
     public function setCustomerPhone($value = '')
     {
-        if (!empty($value))
+        if (!empty($value)) {
             $this->params[self::P_REQ_CUSTOMER_PHONE] = $value;
+        }
     }
 
     public function setProducts($value = array())
@@ -185,14 +178,21 @@ class ApiService
         $this->params[self::P_REQ_PRODUCTS] = is_array($value) ? $value : array();
     }
 
+    public function setFReceiptDelivery($value = 'email')
+    {
+        $this->params[self::F_RECEIPT_DELIVERY_EMAIL] = $value;
+    }
+
     public function addProduct($value = array())
     {
-        if (is_array($value) && !empty($value))
+        if (is_array($value) && !empty($value)) {
             $this->params[self::P_REQ_PRODUCTS][] = $value;
+        }
     }
 
     /**
      * set custom value
+     *
      * @param string $value
      */
     public function setPayLoad($value = '')
@@ -285,6 +285,7 @@ class ApiService
 
     /**
      * @param $params
+     *
      * @return mixed
      */
     private function request($method, $uri, $params = null)
@@ -324,14 +325,16 @@ class ApiService
         self::writeLog(array('params' => $params));
         self::writeLog('response', $server_response);
 
-        if (!$errno && empty($server_response))
+        if (!$errno && empty($server_response)) {
             return $http_code;
-        else
+        } else {
             return ((json_decode($server_response, true)) ? json_decode($server_response, true) : $server_response);
+        }
     }
 
     /**
      * @param $params
+     *
      * @return mixed
      */
     public function createRefund($params = array())
@@ -348,6 +351,7 @@ class ApiService
     /**
      * @param $data
      * @param $requestSign
+     *
      * @return bool
      */
     public function validateSignature($data, $requestSign)
@@ -364,17 +368,20 @@ class ApiService
 
     /**
      * @param $params
+     *
      * @return string
      */
     private function createSign($params)
     {
         $json = self::base64url_encode(json_encode($params));
         $signature = $this->strToSign($this->apiSecret . $json . $this->apiSecret);
+
         return $signature;
     }
 
     /**
      * @param $str
+     *
      * @return string
      */
     private function strToSign($str)
@@ -384,6 +391,7 @@ class ApiService
 
     /**
      * @param $data
+     *
      * @return string
      */
     public static function base64url_encode($data)
@@ -393,6 +401,7 @@ class ApiService
 
     /**
      * @param $data
+     *
      * @return bool|string
      */
     public static function base64url_decode($data)
@@ -402,6 +411,7 @@ class ApiService
 
     /**
      * @param $data
+     *
      * @return mixed
      */
     public static function parseDataResponse($data)
@@ -419,6 +429,7 @@ class ApiService
 
     /**
      * @param $key
+     *
      * @return mixed
      */
     private function getHeader($key)
@@ -429,11 +440,13 @@ class ApiService
     /**
      * @param string $value
      * @param int $round
+     *
      * @return float
      */
     static function amountToDouble($value = '', $round = null)
     {
         $val = floatval($value);
+
         return is_null($round) ? round($val, 2) : round($value, (int)$round);
     }
 
@@ -449,11 +462,9 @@ class ApiService
         if ($show) {
             $filename = !empty($filename) ? strval($filename) : basename(__FILE__);
             file_put_contents(__DIR__ . "/{$filename}.log", "\n\n" . date('H:i:s') . " - $flag \n" .
-                (is_array($data) ? json_encode($data, JSON_PRETTY_PRINT) : $data)
+                                                            (is_array($data) ? json_encode($data, JSON_PRETTY_PRINT) : $data)
                 , ($append ? FILE_APPEND : 0)
             );
         }
     }
-
-
 }
